@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "graphql-utilities": "workspace:",
+    "@graphql-tools/load-files": "catalog:",
+    "@graphql-tools/merge": "catalog:",
+    "@graphql-tools/schema": "catalog:",
+    "@graphql-tools/utils": "catalog:",
+    "graphql": "catalog:",
+    "graphql-scalars": "catalog:"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "extends": ["./tsconfig.node.json"],
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "${configDir}/vite.config.ts",
+    "${configDir}/../src/example.ts",
+    "${configDir}/vite.storybook.config.ts",
+    "${configDir}/eslint.config.ts",
+    "${configDir}/../vitest.config.ts",
+    "${configDir}/../.storybook/main.ts"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "display": "root",
+  "files": [],
+  "references": [
+    {"path": "./packages/config/tsconfig.json"},
+    {"path": "./packages/utilities/tsconfig.json"},
+    {"path": "./packages/effect-schema-viz/tsconfig.json"},
+    {"path": "./config/tsconfig.node.dev.json"}
+  ]
+}

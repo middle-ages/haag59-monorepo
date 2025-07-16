@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+function copy_package_json() {
+  local index description groups from
+  index="${1}" description="${2}" groups=("${@:3}") from="${CONFIG_TEMPLATE_DIR}/package-json"
+
+  local target pretty_target
+  target="${WORKSPACE_PACKAGE_JSON}"
+  pretty_target="$(show_path "${target}" "${WORKSPACE_DIR}")"
+  log "${index}. 📂 Building ${pretty_target}"
+  
+  local group json_groups
+  for group in "${groups[@]}"; do
+    json_groups+=("${from}/${group}.json")
+  done
+
+  output=$(mktemp)
+  merge_json_files "${json_groups[@]}" | strip_braces > "${output}"
+  echo "," >> "${output}"
+  echo -n '"dependencies": ' >> "${output}"
+  echo "$(merge_key dependencies "${json_groups[@]}")," >> "${output}"
+  echo -n '"devDependencies": ' >> "${output}"
+  echo "$(merge_key devDependencies "${json_groups[@]}")," >> "${output}"
+  echo -n '"scripts": ' >> "${output}"
+  echo "$(merge_key scripts "${json_groups[@]}")" >> "${output}"
+
+  result="$(echo "$(surround_braces "$(<"${output}")")")"
+  rm -f "${output}" >& /dev/null
+  echo "${result}" | jq_mono > "${target}"
+
+  process_workspace_template "${target}" "${WORKSPACE_NAME}" "${description}"
+  pnpm prettier --log-level=silent --write "${target}"
+}
+
+

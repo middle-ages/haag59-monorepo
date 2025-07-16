@@ -1,0 +1,92 @@
+digraph "Kitchen Sink" {
+  bgcolor = "grey75";
+  "KitchenSink" [
+    label = <<table border="0" cellborder="0" cellspacing="4">
+<tr><td colspan="2" border="1" sides="b">KitchenSink</td></tr>
+<tr>
+<td border="0" cellpadding="1" align="left">string:</td>
+<td border="0" cellpadding="1" align="left">string</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">number:</td>
+<td border="0" cellpadding="1" align="left">number</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">boolean:</td>
+<td border="0" cellpadding="1" align="left">boolean</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">object:</td>
+<td border="0" cellpadding="1" align="left">object</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">undefined:</td>
+<td border="0" cellpadding="1" align="left">undefined</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">void:</td>
+<td border="0" cellpadding="1" align="left">void</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">any:</td>
+<td border="0" cellpadding="1" align="left">any</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">unknown:</td>
+<td border="0" cellpadding="1" align="left">unknown</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">never:</td>
+<td border="0" cellpadding="1" align="left">never</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">bigint:</td>
+<td border="0" cellpadding="1" align="left">bigint</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">literalNumber:</td>
+<td border="0" cellpadding="1" align="left">42</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">literalString:</td>
+<td border="0" cellpadding="1" align="left">"foo"</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">templateLiteral:</td>
+<td border="0" cellpadding="1" align="left">`http://${string}`</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">uniqueSymbol:</td>
+<td border="0" cellpadding="1" align="left">Symbol(effect-schema-viz/test/schema)</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">enums:</td>
+<td border="0" cellpadding="1" align="left">"Apple" | "Banana" | "Mango"</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">literalUnion:</td>
+<td border="0" cellpadding="1" align="left">("bar" | 123 | "baz")</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">pair:</td>
+<td border="0" cellpadding="1" align="left">[string, number]</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">array:</td>
+<td border="0" cellpadding="1" align="left">boolean[]</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">restTuple:</td>
+<td border="0" cellpadding="1" align="left">[string, ...number[]]</td>
+</tr>
+<tr>
+<td border="0" cellpadding="1" align="left">tupleOptional:</td>
+<td border="0" cellpadding="1" align="left">["foo", "bar"?]</td>
+</tr>
+</table>>;
+    shape = "plain";
+    style = "filled";
+    fillcolor = "white";
+    fontname = "CMU Typewriter Text";
+  ];
+}

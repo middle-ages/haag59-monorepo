@@ -1,0 +1,10 @@
+{
+  "private": false,
+  "homepage": "https://github.com/middle-ages/haag59-monorepo/tree/main/packages/[WORKSPACE_NAME]",
+  "bugs": "https://github.com/middle-ages/haag59-monorepo/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/middle-ages/haag59-monorepo/tree/main/packages/[WORKSPACE_NAME]"
+  },
+  "keywords": []
+}

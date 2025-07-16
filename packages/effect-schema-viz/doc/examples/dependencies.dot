@@ -1,0 +1,147 @@
+digraph "dependency tree example" {
+  bgcolor = "gray90";
+  rankdir = "LR";
+  pad = 0.25;
+  splines = "ortho";
+  "Leaf₁" [
+    label = <<table border="0" cellborder="0" cellspacing="4">
+<tr><td colspan="2" border="1" sides="b">Leaf₁</td></tr>
+<tr>
+<td border="0" cellpadding="1" align="left">value:</td>
+<td border="0" cellpadding="1" align="left">"Leaf₁"</td>
+</tr>
+</table>>;
+    shape = "plain";
+    fontname = "Inter";
+    fontsize = 12;
+    fontcolor = "gray10";
+    fillcolor = "white";
+    style = "filled";
+  ];
+  "Leaf₂" [
+    label = <<table border="0" cellborder="0" cellspacing="4">
+<tr><td colspan="2" border="1" sides="b">Leaf₂</td></tr>
+<tr>
+<td border="0" cellpadding="1" align="left">value:</td>
+<td border="0" cellpadding="1" align="left">"Leaf₂"</td>
+</tr>
+</table>>;
+    shape = "plain";
+    fontname = "Inter";
+    fontsize = 12;
+    fontcolor = "gray10";
+    fillcolor = "white";
+    style = "filled";
+  ];
+  "Leaf₃" [
+    label = <<table border="0" cellborder="0" cellspacing="4">
+<tr><td colspan="2" border="1" sides="b">Leaf₃</td></tr>
+<tr>
+<td border="0" cellpadding="1" align="left">value:</td>
+<td border="0" cellpadding="1" align="left">"Leaf₃"</td>
+</tr>
+</table>>;
+    shape = "plain";
+    fontname = "Inter";
+    fontsize = 12;
+    fontcolor = "gray10";
+    fillcolor = "white";
+    style = "filled";
+  ];
+  "Leaf₄" [
+    label = <<table border="0" cellborder="0" cellspacing="4">
+<tr><td colspan="2" border="1" sides="b">Leaf₄</td></tr>
+<tr>
+<td border="0" cellpadding="1" align="left">value:</td>
+<td border="0" cellpadding="1" align="left">"Leaf₄"</td>
+</tr>
+</table>>;
+    shape = "plain";
+    fontname = "Inter";
+    fontsize = 12;
+    fontcolor = "gray10";
+    fillcolor = "white";
+    style = "filled";
+  ];
+  "Branch₁" [
+    label = <<table border="0" cellborder="0" cellspacing="4">
+<tr><td colspan="2" border="1" sides="b">Branch₁</td></tr>
+<tr>
+<td border="0" cellpadding="1" align="left">leaves:</td>
+<td border="0" cellpadding="1" align="left">[Leaf₁, Leaf₂]</td>
+</tr>
+</table>>;
+    shape = "plain";
+    fontname = "Inter";
+    fontsize = 12;
+    fontcolor = "gray10";
+    fillcolor = "white";
+    style = "filled";
+  ];
+  "Branch₂" [
+    label = <<table border="0" cellborder="0" cellspacing="4">
+<tr><td colspan="2" border="1" sides="b">Branch₂</td></tr>
+<tr>
+<td border="0" cellpadding="1" align="left">leaves:</td>
+<td border="0" cellpadding="1" align="left">[Leaf₃, Leaf₄]</td>
+</tr>
+</table>>;
+    shape = "plain";
+    fontname = "Inter";
+    fontsize = 12;
+    fontcolor = "gray10";
+    fillcolor = "white";
+    style = "filled";
+  ];
+  "Root₀" [
+    label = <<table border="0" cellborder="0" cellspacing="4">
+<tr><td colspan="2" border="1" sides="b">Root₀</td></tr>
+<tr>
+<td border="0" cellpadding="1" align="left">branches:</td>
+<td border="0" cellpadding="1" align="left">[Branch₁, Branch₂]</td>
+</tr>
+</table>>;
+    shape = "plain";
+    fontname = "Inter";
+    fontsize = 12;
+    fontcolor = "gray10";
+    fillcolor = "white";
+    style = "filled";
+  ];
+  "Branch₁" -> "Leaf₁" [
+    color = "gray25";
+    penwidth = 1;
+    arrowhead = "vee";
+    arrowsize = 0.5;
+  ];
+  "Branch₁" -> "Leaf₂" [
+    color = "gray25";
+    penwidth = 1;
+    arrowhead = "vee";
+    arrowsize = 0.5;
+  ];
+  "Branch₂" -> "Leaf₃" [
+    color = "gray25";
+    penwidth = 1;
+    arrowhead = "vee";
+    arrowsize = 0.5;
+  ];
+  "Branch₂" -> "Leaf₄" [
+    color = "gray25";
+    penwidth = 1;
+    arrowhead = "vee";
+    arrowsize = 0.5;
+  ];
+  "Root₀" -> "Branch₁" [
+    color = "gray25";
+    penwidth = 1;
+    arrowhead = "vee";
+    arrowsize = 0.5;
+  ];
+  "Root₀" -> "Branch₂" [
+    color = "gray25";
+    penwidth = 1;
+    arrowhead = "vee";
+    arrowsize = 0.5;
+  ];
+}

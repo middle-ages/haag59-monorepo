@@ -1,0 +1,40 @@
+{
+  "name": "[WORKSPACE_NAME]",
+  "description": "[WORKSPACE_DESCRIPTION]",
+  "version": "1.0.0",
+  "type": "module",
+  "author": "Ran Eilam <ran@haag59.com> (https://middle-ages.github.io/)",
+  "license": "ISC",
+  "scripts": {
+    "clean": "clean",
+    "show:info": "show-info",
+    "lint": "lint",
+    "lint:fix": "lint-fix",
+    "test": "test-run",
+    "test:watch": "test-watch",
+    "coverage": "coverage",
+    "typecheck": "typecheck",
+    "build": "build"
+  },
+  "devDependencies": {
+    "config": "workspace:",
+    "scripts": "workspace:"
+  },
+  "dependencies": {
+    "utilities": "workspace:"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "import": "./index.js"
+      }
+    },
+    "./*": {
+      "import": {
+        "types": "./src/*.d.ts",
+        "import": "./src/*.js"
+      }
+    }
+  }
+}

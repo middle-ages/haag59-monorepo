@@ -1,0 +1,8 @@
+{
+  "display": "workspace “config” node.dev",
+  "extends": ["../typescript/tsconfig.node.dev.json"],
+  "include": [
+    "../vitest/vitest.node.config.ts",
+    "../template/vitest.node.config.ts"
+  ]
+}

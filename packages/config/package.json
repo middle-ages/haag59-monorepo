@@ -1,0 +1,13 @@
+{
+  "name": "config",
+  "description": "Shared workspace configuration for Typescript, Vitest, and Node.js.",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./vitest.node": "./vitest/vitest.node.config.js",
+    "./tsconfig.node.dev": "./typescript/tsconfig.node.dev.json",
+    "./tsconfig.node.test": "./typescript/tsconfig.node.test.json",
+    "./tsconfig.node.main": "./typescript/tsconfig.node.main.json"
+  }
+}

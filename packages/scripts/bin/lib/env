@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+export ALL_VISIBILITY=('public' 'private')
+export ALL_ENVIRONMENT=('node' 'browser')
+export ALL_NATURE=('main' 'dev' 'test')
+
+declare -A validVisibility validEnvironment validNature
+
+for s in "${ALL_VISIBILITY[@]}";  do validVisibility[$s]=1;  done
+for s in "${ALL_ENVIRONMENT[@]}"; do validEnvironment[$s]=1; done
+for s in "${ALL_NATURE[@]}";      do validNature[$s]=1;      done
+
+function check_visibility() {
+  local visibility
+  visibility="${1}"
+  if [[ -z "${visibility}" ]]; then 
+    missing_value_error visibility
+  elif [[ "${validVisibility[$visibility]:-}" ]]; then
+    echo "${visibility}"
+  else 
+    invalid_value_error visibility "${visibility}" "${ALL_VISIBILITY[@]}"
+  fi
+}
+
+function check_environment() {
+  local environment
+  environment="${1}"
+  if [[ -z "${environment}" ]]; then 
+    missing_value_error environment
+  elif [[ "${validEnvironment[$environment]:-}" ]]; then
+    echo "${environment}"
+  else 
+    invalid_value_error environment "${environment}" "${ALL_ENVIRONMENT[@]}"
+  fi
+}
+
+function check_typescript_nature() {
+  local nature
+  nature="${1}"
+  if [[ -z "${nature}" ]]; then 
+    missing_value_error nature
+  elif [[ "${validNature[$nature]:-}" ]]; then
+    echo "${nature}"
+  else 
+    invalid_value_error nature "${nature}" "${ALL_NATURE[@]}"
+  fi
+}

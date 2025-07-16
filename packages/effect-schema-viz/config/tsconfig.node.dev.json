@@ -1,0 +1,4 @@
+{
+  "display": "workspace “effect-schema-viz” node.dev",
+  "extends": ["config/tsconfig.node.dev"]
+}

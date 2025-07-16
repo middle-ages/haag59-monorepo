@@ -1,0 +1,4 @@
+{
+  "display": "workspace “utilities” node.dev",
+  "extends": ["config/tsconfig.node.dev"]
+}

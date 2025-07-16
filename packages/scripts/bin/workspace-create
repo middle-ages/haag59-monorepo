@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+. "$(dirname "${0}")/lib/_"
+
+COLOR=true
+
+if [[ -z "${1:-}" ]]; then
+  die "missing name for new workspace.">&2
+fi
+
+name="${1}"
+visibility="$(check_visibility "${2:-}")"
+environment="$(check_environment "${3:-}")"
+description="${4}"
+dependencyGroups=(common "${visibility}")
+dependencyGroups+=("${@:5}")
+
+. "$(dirname "${BASH_SOURCE[0]}")/lib/workspace"
+set_workspace_basic_env "${name}"
+
+. "$(dirname "${BASH_SOURCE[0]}")/lib/show"
+. "$(dirname "${BASH_SOURCE[0]}")/lib/package_json"
+. "$(dirname "${BASH_SOURCE[0]}")/lib/template"
+
+if [[ -d "${WORKSPACE_DIR}" ]]; then
+  die "a workspace named “$(color_error "${name}")” already exists."
+fi
+
+mkdir -p "${WORKSPACE_DIR}/src" "${WORKSPACE_DIR}/config"
+
+echo "export hello = 123" > "${WORKSPACE_DIR}/index.ts"
+
+copy_templates "${environment}" "${description}" "${dependencyGroups[@]}"
+
+show_info

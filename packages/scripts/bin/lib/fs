@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+shopt -s extglob
+
+function dirname2() {
+  dirname "$(dirname "${1}")"
+}
+
+function join_statements() {
+  local head statements statement result
+  head="${1}"
+  statements=("${@:2}")
+  result="${head}"
+  for statement in "${statements[@]}"; do
+    result="${result};${statement}"
+  done
+  echo -n "${result}"
+}
+
+function process_workspace_template() {
+  local file name description
+  file="${1}" name="${2}" description="${3:-}"
+
+  local replace_name replace_description code
+  name_re="s/\\[WORKSPACE_NAME\\]/${name}/"
+  description_re="s/\\[WORKSPACE_DESCRIPTION\\]/${description//\//\\/}/"
+  code="$(join_statements \
+    "${name_re}" \
+    "${description_re}")"
+  perl -pi -E "${code}" "${file}"
+}
+
+function show_path() {
+  local path base formatted
+  path="${1}" base="${2}"
+  formatted="$(realpath --relative-to="${base}" "${path}")"
+  color_path "${formatted}"
+}
+
+function show_paths() {
+  local base paths formatted
+  base="${1:-}"
+  shift
+  paths=("${@}") formatted=()
+  for s in "${paths[@]}"; do
+    formatted+=("$(show_path "${s}" "${base}")")
+  done
+  show_array "${formatted[@]}"
+}
+
+function copy_file() {
+  local source target source_base target_base index max_width
+
+        source="${1}" target="${2}" source_base="${3}"
+   target_base="${4}"  index="${5}"   max_width="${6}"
+
+  local short_source pretty_source pretty_target
+  short_source="$(show_path "${source}" "${source_base}")"
+
+  if [[ -n "${max_width}" ]]; then
+    pretty_source="$(pad_left "${short_source}" "${max_width}")"
+  else
+    pretty_source="${short_source}"
+  fi
+
+  pretty_target="$(show_path "${target}" "${target_base}")"
+
+  log "${index}. 📂 ${pretty_source} ⇒ ${pretty_target}"
+  cp "${source}" "${target}"
+}

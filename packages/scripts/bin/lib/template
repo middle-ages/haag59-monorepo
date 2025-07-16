@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+function copy_vitest() {
+  local environment index source target
+  environment="${1}" index="${2}"
+
+  source="${CONFIG_TEMPLATE_DIR}/vitest.${environment}.config.ts"
+  target="vitest.config.ts"
+  copy_process_template "${source}" "${target}" "${index}"
+}
+
+function copy_tsconfig() {
+  local environment nature index source target
+  environment="${1}" nature="${2}" index="${3}"
+
+  source="$(tsconfig_template "${environment}" "${nature}")" 
+  if [[ "${nature}" == 'top' ]]; then
+    target="tsconfig.json"
+  else
+    target="config/$(basename "${source}")"
+  fi
+  copy_process_template "${source}" "${target}" "${index}"
+}
+
+function copy_templates() {
+  log "Copying templates..."
+  local environment description dependencyGroups
+  environment="${1}" description="${2}" dependencyGroups=("${@:3}")
+  
+  copy_package_json 1 "${description}" "${dependencyGroups[@]}"
+  copy_vitest "${environment}" 2
+  copy_tsconfig "${environment}" top 3
+
+  local index nature
+  index=4
+  for nature in "${ALL_NATURE[@]}"; do
+    copy_tsconfig "${environment}" "${nature}" "${index}"
+    (( index++ ))
+  done
+
+  show_done
+}

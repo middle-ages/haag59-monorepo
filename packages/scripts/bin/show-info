@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+. "$(dirname "${0}")/lib/_"
+. "$(dirname "${0}")/lib/repo"
+. "$(dirname "${0}")/lib/workspace"
+. "$(dirname "${0}")/lib/show"
+
+show_info

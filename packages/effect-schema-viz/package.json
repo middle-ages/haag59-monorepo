@@ -1,0 +1,90 @@
+{
+  "name": "effect-schema-viz",
+  "description": "Compile your effect/Schema in Graphviz.",
+  "version": "1.0.0",
+  "type": "module",
+  "author": "Ran Eilam <ran@haag59.com> (https://middle-ages.github.io/)",
+  "license": "ISC",
+  "scripts": {
+    "clean": "clean",
+    "show:info": "show-info",
+    "lint": "lint",
+    "lint:fix": "lint-fix",
+    "test": "test-run",
+    "test:watch": "test-watch",
+    "coverage": "coverage",
+    "typecheck": "typecheck",
+    "build": "build",
+    "example:basic": "src/test/examples/basic.ts",
+    "example:dependencies": "src/test/examples/dependencies.ts",
+    "example:kitchen-sink": "src/test/examples/kitchenSink.ts"
+  },
+  "devDependencies": {
+    "config": "workspace:",
+    "scripts": "workspace:"
+  },
+  "dependencies": {
+    "ts-graphviz": "catalog:",
+    "utilities": "workspace:"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "import": "./index.js"
+      }
+    },
+    "./*": {
+      "import": {
+        "types": "./src/*.d.ts",
+        "import": "./src/*.js"
+      }
+    }
+  },
+  "imports": {
+    "#model": {
+      "import": {
+        "types": "./src/diagram/model.d.ts",
+        "import": "./src/diagram/model.js"
+      }
+    },
+    "#fold": {
+      "import": {
+        "types": "./src/diagram/fold.d.ts",
+        "import": "./src/diagram/fold.js"
+      }
+    },
+    "#render": {
+      "import": {
+        "types": "./src/diagram/render.d.ts",
+        "import": "./src/diagram/render.js"
+      }
+    },
+    "#annotations": {
+      "import": {
+        "types": "./src/schema/annotations.d.ts",
+        "import": "./src/schema/annotations.js"
+      }
+    },
+    "#compile": {
+      "import": {
+        "types": "./src/schema/compile.d.ts",
+        "import": "./src/schema/compile.js"
+      }
+    },
+    "#schemas": {
+      "import": {
+        "types": "./src/test/schemas.d.ts",
+        "import": "./src/test/schemas.js"
+      }
+    }
+  },
+  "private": false,
+  "homepage": "https://github.com/middle-ages/haag59-monorepo/tree/main/packages/effect-schema-viz",
+  "bugs": "https://github.com/middle-ages/haag59-monorepo/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/middle-ages/haag59-monorepo/tree/main/packages/effect-schema-viz"
+  },
+  "keywords": []
+}

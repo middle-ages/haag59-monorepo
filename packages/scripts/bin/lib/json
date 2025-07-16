@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+function jq_mono() {
+  jq --ascii-output --monochrome-output "${@}"
+}
+
+function strip_braces() {
+  head -n -1 | tail -n +2
+}
+
+function surround_braces() {
+  local json
+  json="${1}"
+  echo "{"
+  echo "${json}"
+  echo -n "}"
+}
+
+function get_string_key() {
+  local file key args
+  file="${1}" key="${2}" args=("${@:3}")
+  jq "${args[@]}" ".${key} // "'""' < "${file}"
+}
+
+function get_boolean_key() {
+  local file key
+  file="${1}" key="${2}"
+  jq --raw-output ".${key} // false" < "${file}"
+}
+
+function get_object_key() {
+  local file key
+  file="${1}" key="${2}"
+  (jq --raw-output ".${key} // "'"{\n}"' | strip_braces) < "${file}"
+}
+
+function remove_key() {
+  local file key tmp
+  file="${1}" key="${2}"
+  tmp="$(mktemp)"
+  (jq --raw-output "del(.${key})" < "${file}") > "${tmp}"
+  mv "${tmp}" "${file}"
+}
+
+function merge_key() {
+  local key head tail output result
+  key="${1}" head="${2}" tail=("${@:3}")  output="$(mktemp)" 
+  local head_value
+  head_value="$(get_object_key "${head}" "${key}")"
+  echo -n "${head_value}" > "${output}"
+  local value
+  for file in "${tail[@]}"; do
+    value="$(get_object_key "${file}" "${key}")"
+    if [[ -n "${value}"  ]]; then
+      echo "," >> "${output}"
+      echo -n "${value}" >> "${output}"
+    fi
+  done
+  result="$(surround_braces "$(<"${output}")")"
+  rm -f "${output}" >& /dev/null
+  echo "${result}" | jq_mono
+}
+
+function merge_json_files() {
+  local key head tail output result
+  head="${1}" output="$(mktemp)" tail=("${@:2}")
+  (strip_braces < "${head}") > "${output}"
+  for file in "${tail[@]}"; do
+    echo "," >> "${output}"
+    (strip_braces < "${file}") >> "${output}"
+  done
+  result="$(surround_braces "$(<"${output}")")"
+  rm -f "${output}" >& /dev/null
+  echo "${result}" | jq_mono
+}

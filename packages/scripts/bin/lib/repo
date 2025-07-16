@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+export REPO_NAME='haag59-monorepo'
+
+if [[ -z "${npm_package_name:-}" ]]; then
+  die "Cannot find package name."
+fi
+
+if [[ -z "${npm_package_json:-}" ]]; then
+  die "Cannot find package.json."
+fi
+
+export WORKSPACE_PACKAGE_JSON="${npm_package_json:-}"
+export WORKSPACE_DIR="${WORKSPACE_PACKAGE_JSON%/*}"
+export WORKSPACE_NAME="${npm_package_name}"
+
+export ROOT_WORKSPACE_DIR WORKSPACE_IS_ROOT
+if  [[ "${WORKSPACE_NAME}" == "${REPO_NAME}" ]]; then
+  ROOT_WORKSPACE_DIR="${WORKSPACE_DIR}"
+  WORKSPACE_IS_ROOT=true
+else
+  ROOT_WORKSPACE_DIR="$(dirname2 "${WORKSPACE_DIR}")"
+  WORKSPACE_IS_ROOT=false
+fi
+
+export ROOT_PACKAGE_JSON="${ROOT_WORKSPACE_DIR}/package.json"
+export ROOT_CONFIG_DIR="${ROOT_WORKSPACE_DIR}/config"
+export ROOT_ESLINT_CONFIG="${ROOT_CONFIG_DIR}/eslint.config.ts"
+export ROOT_PACKAGES_DIR="${ROOT_WORKSPACE_DIR}/packages"
+
+export CONFIG_WORKSPACE_DIR="${ROOT_PACKAGES_DIR}/config"
+export CONFIG_TEMPLATE_DIR="${CONFIG_WORKSPACE_DIR}/template"
+export SCRIPTS_WORKSPACE_DIR="${ROOT_PACKAGES_DIR}/scripts"
+
+function show_template_path() {
+  show_path "${1}" "${CONFIG_TEMPLATE_DIR}" 
+}
+
+function show_root_path() {
+  show_path "${1}" "${ROOT_WORKSPACE_DIR}"
+}
+
+function show_root_paths() {
+  show_paths "${ROOT_WORKSPACE_DIR}" "${@}"
+}
+
+function tsconfig_template() {
+  echo "${CONFIG_TEMPLATE_DIR}/tsconfig.${1}.${2}.json"
+}

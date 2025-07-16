@@ -1,0 +1,20 @@
+{
+  "extends": ["./tsconfig.node.json"],
+  "compilerOptions": {
+    "noEmit": false
+  },
+  "include": ["${configDir}/../index.ts", "${configDir}/../src/**/*.ts"],
+  "exclude": [
+    "${configDir}/../src/example.ts",
+    "${configDir}/../src/test.ts",
+    "${configDir}/../src/test.setup.ts",
+    "${configDir}/../src/storybook.ts",
+    "${configDir}/../src/test/**/*.*",
+    "${configDir}/../src/storybook/**/*.*",
+    "${configDir}/../src/**/*.test.ts",
+    "${configDir}/../src/**/*.test.tsx",
+    "${configDir}/../src/**/*.test-d.*",
+    "${configDir}/../src/**/*.stories.ts",
+    "${configDir}/../src/**/*.stories.tsx"
+  ]
+}

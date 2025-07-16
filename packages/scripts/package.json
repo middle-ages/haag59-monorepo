@@ -1,0 +1,25 @@
+{
+  "name": "scripts",
+  "description": "Haag59 repository scripts",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "shellcheck": "shellcheck --external-sources --source-path=bin/lib --source-path=bin bin/*(.) bin/lib/*(.)",
+    "show:info": "bin/show-info"
+  },
+  "bin": {
+    "show-info": "bin/show-info",
+    "clean": "bin/clean",
+    "lint": "bin/lint",
+    "lint-fix": "bin/lint-fix",
+    "test-watch": "bin/test-watch",
+    "test-run": "bin/test-run",
+    "coverage": "bin/coverage",
+    "typecheck": "bin/typecheck",
+    "check": "bin/check",
+    "build": "bin/build",
+    "workspace-create": "bin/workspace-create",
+    "lib": "bin/lib"
+  }
+}

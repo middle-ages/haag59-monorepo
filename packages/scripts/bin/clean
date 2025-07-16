@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+. "$(dirname "${0}")/lib/_"
+. "$(dirname "${0}")/lib/repo"
+. "$(dirname "${0}")/lib/workspace"
+
+clean_dirs=(
+  "${WORKSPACE_DIST_DIR}"
+  "${WORKSPACE_SB_BUILD_DIR}"
+)
+
+for dir in "${clean_dirs[@]}"; do
+  if [[ -d "${dir}" ]]; then
+    log "🧹 Cleaning “${dir}”"
+    rm -rf "${dir}"
+  fi
+done

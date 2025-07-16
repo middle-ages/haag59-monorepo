@@ -1,0 +1,4 @@
+{
+  "display": "workspace “[WORKSPACE_NAME]” node.test",
+  "extends": ["config/tsconfig.node.test"]
+}

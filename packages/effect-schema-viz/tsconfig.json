@@ -1,0 +1,9 @@
+{
+  "display": "workspace “effect-schema-viz”",
+  "files": [],
+  "references": [
+    {"path": "./config/tsconfig.node.main.json"},
+    {"path": "./config/tsconfig.node.dev.json"},
+    {"path": "./config/tsconfig.node.test.json"}
+  ]
+}

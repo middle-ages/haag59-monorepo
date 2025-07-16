@@ -1,0 +1,7 @@
+{
+  "extends": ["./tsconfig.base.json", "@tsconfig/vite-react/tsconfig.json"],
+  "compilerOptions": {
+    "allowArbitraryExtensions": true,
+    "allowImportingTsExtensions": false
+  }
+}

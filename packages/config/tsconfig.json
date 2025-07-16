@@ -1,0 +1,5 @@
+{
+  "display": "workspace “config”",
+  "files": [],
+  "references": [{"path": "./config/tsconfig.node.dev.json"}]
+}

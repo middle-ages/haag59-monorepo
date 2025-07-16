@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+function show_info() {
+  local root_dir formatted_root_dir
+  root_dir="$(realpath --relative-to="${HOME}" "${ROOT_WORKSPACE_DIR}")"
+  
+  local COLOR=true
+  # shellcheck disable=2088
+  formatted_root_dir="$(color_name "~/${root_dir}")"
+
+  echo -e "
+VALID {
+  VISIBILITY:              $(show_array "${ALL_VISIBILITY[@]}")
+  ENVIRONMENT:             $(show_array "${ALL_ENVIRONMENT[@]}")
+  NATURE:                  $(show_array "${ALL_NATURE[@]}")
+}                          
+REPO {                     
+  NAME:                    $(color_head "${REPO_NAME}")
+  ROOT {                   
+    DIR:                   ${formatted_root_dir}
+    PACKAGE_JSON:          $(show_root_path "${ROOT_PACKAGE_JSON}")
+    CONFIG_DIR:            $(show_root_path "${ROOT_CONFIG_DIR}")
+    PACKAGES_DIR:          $(show_root_path "${ROOT_PACKAGES_DIR}")
+    SCRIPTS_WORKSPACE_DIR: $(show_root_path "${SCRIPTS_WORKSPACE_DIR}")
+    CONFIG_WORKSPACE_DIR:  $(show_root_path "${CONFIG_WORKSPACE_DIR}")
+    CONFIG_TEMPLATE_DIR:   $(show_root_path "${CONFIG_TEMPLATE_DIR}")
+    WORKSPACE {            
+      IS_ROOT:             ${WORKSPACE_IS_ROOT}
+      NAME:                $(color_head "${WORKSPACE_NAME}")
+      DIR:                 $(show_root_path "${WORKSPACE_DIR}")
+      PACKAGE_JSON:        $(show_workspace_path "${WORKSPACE_PACKAGE_JSON}" "${WORKSPACE_DIR}")
+      CONFIG_DIR:          $(show_workspace_path "${WORKSPACE_CONFIG_DIR}" "${WORKSPACE_DIR}")
+      DIST_DIR:            $(show_workspace_path "${WORKSPACE_DIST_DIR}" "${WORKSPACE_DIR}")
+      SB_BUILD_DIR:        $(show_workspace_path "${WORKSPACE_SB_BUILD_DIR}" "${WORKSPACE_DIR}")
+    }
+  }
+}
+"
+}
