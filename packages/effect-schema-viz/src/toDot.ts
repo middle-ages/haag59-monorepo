@@ -34,5 +34,5 @@ export const structsToGraph =
  */
 export const structsToDot =
   (name: string, options: GraphAttributesObject = {}) =>
-  (structs: AnyStructs): string =>
+  (...structs: AnyStructs): string =>
     pipe(structs, structsToGraph(name, options), toDot)

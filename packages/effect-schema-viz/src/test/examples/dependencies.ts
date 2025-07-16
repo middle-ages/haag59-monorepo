@@ -33,10 +33,10 @@ const edgeStyle = {
   arrowsize: 0.5,
 } as const satisfies EdgeAttributesObject
 
-const dot = pipe(
-  buildStructs(),
-  structsToDot('dependency tree example', graphStyle),
-)
+const dot = structsToDot(
+  'dependency tree example',
+  graphStyle,
+)(...buildStructs())
 
 console.log(dot)
 

@@ -3,7 +3,7 @@ import {structsToDot, type AnyStructs} from 'effect-schema-viz'
 
 const testToDot = (name: string, structs: AnyStructs, expected: string) => {
   test(name, () => {
-    expect(structsToDot(name)(structs)).toBe(expected)
+    expect(structsToDot(name)(...structs)).toBe(expected)
   })
 }
 

@@ -8,6 +8,6 @@ const Foo = pipe({foo: Schema.String}, Schema.Struct, setIdentifier('Foo'))
 
 const Bar = pipe({bar: Foo}, Schema.Struct, setIdentifier('Bar'))
 
-const dot = structsToDot('basic example')([Foo, Bar])
+const dot = structsToDot('basic example')(Foo, Bar)
 
 console.log(dot)
