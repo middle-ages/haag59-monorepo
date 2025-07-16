@@ -13,6 +13,10 @@ declare module 'effect/Schema' {
   }
 }
 
+/**
+ * Set Graphviz [edge options](https://graphviz.org/docs/edges/) for all edges
+ * _outgoing_ from the node annotated.
+ */
 export const setEdgeOptions =
   (options: EdgeAttributesObject) =>
   <const Fields extends Schema.Struct.Fields>(
@@ -20,5 +24,9 @@ export const setEdgeOptions =
   ): typeof schema =>
     schema.annotations({[EdgeOptions]: options})
 
+/**
+ * Get Graphviz [edge options](https://graphviz.org/docs/edges/) used for all
+ * edges _outgoing_ from the node annotated.
+ */
 export const getEdgeOptions: (ast: AST) => Option.Option<EdgeAttributesObject> =
   getAnnotation<EdgeAttributesObject>(EdgeOptions)

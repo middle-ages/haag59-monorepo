@@ -14,10 +14,12 @@ const config = tslint.config(
     '../packages/*/node-modules',
     '../packages/*/dist',
     '../packages/*/storybook-static',
+    '../packages/*/api-docs',
     './dependency-cruiser.cjs',
     './node_modules',
     './dist',
     './storybook-static',
+    './api-docs',
   ]),
 
   eslint.configs.recommended,
@@ -95,7 +97,12 @@ const config = tslint.config(
   },
 
   {
-    files: ['../**/*.test.ts', '../**/*.test-d.ts', './**/*.test.ts', './**/*.test-d.ts'],
+    files: [
+      '../**/*.test.ts',
+      '../**/*.test-d.ts',
+      './**/*.test.ts',
+      './**/*.test-d.ts',
+    ],
     languageOptions: {
       globals: globals.vitest,
     },

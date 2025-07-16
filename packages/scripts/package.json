@@ -19,6 +19,7 @@
     "typecheck": "bin/typecheck",
     "check": "bin/check",
     "build": "bin/build",
+    "build-docs": "bin/build-docs",
     "workspace-create": "bin/workspace-create",
     "lib": "bin/lib"
   }

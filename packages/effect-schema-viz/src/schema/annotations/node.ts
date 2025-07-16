@@ -13,6 +13,10 @@ declare module 'effect/Schema' {
   }
 }
 
+/**
+ * Set Graphviz [node options](https://graphviz.org/docs/nodes/) for the node
+ * annotated.
+ */
 export const setNodeOptions =
   (options: NodeAttributesObject) =>
   <const Fields extends Schema.Struct.Fields>(
@@ -20,5 +24,9 @@ export const setNodeOptions =
   ): typeof schema =>
     schema.annotations({[NodeOptions]: options})
 
+/**
+ * Set Graphviz [node options](https://graphviz.org/docs/nodes/) used for the
+ * node annotated.
+ */
 export const getNodeOptions: (ast: AST) => Option.Option<NodeAttributesObject> =
   getAnnotation<NodeAttributesObject>(NodeOptions)

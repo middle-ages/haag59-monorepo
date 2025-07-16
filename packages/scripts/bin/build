@@ -4,4 +4,8 @@ set -Eeuo pipefail
 
 . "$(dirname "${0}")/lib/_"
 
+mkdir -p dist
+
+cp package.json dist
+
 tsc --build "${@}"

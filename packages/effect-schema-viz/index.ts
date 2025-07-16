@@ -1,6 +1,11 @@
 export * from './src/toDot.js'
-export * from '#model'
-export * from '#fold'
-export * from '#render'
-export * from '#annotations'
-export * from '#compile'
+export {
+  Struct,
+  setIdentifier,
+  getOptions,
+  getEdgeOptions,
+  setEdgeOptions,
+  getNodeOptions,
+  setNodeOptions,
+} from '#annotations'
+export {type AnyStructs} from '#compile'

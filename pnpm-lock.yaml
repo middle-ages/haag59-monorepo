@@ -94,7 +94,7 @@ catalogs:
       specifier: 4.20.3
       version: 4.20.3
     typedoc:
-      specifier: ^0.28.7
+      specifier: 0.28.7
       version: 0.28.7
     typescript:
       specifier: ~5.8.3
@@ -231,6 +231,10 @@ importers:
       scripts:
         specifier: 'workspace:'
         version: link:../scripts
+      typedoc:
+        specifier: 'catalog:'
+        version: 0.28.7(typescript@5.8.3)
+    publishDirectory: dist
 
   packages/scripts: {}
 

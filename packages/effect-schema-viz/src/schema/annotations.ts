@@ -36,14 +36,20 @@ export const getIdentifierOrAnonymous: (ast: TypeLiteral) => string = flow(
   Option.getOrElse(constant('Anonymous')),
 )
 
+/**
+ * Annotate the given `Schema.Struct` with the given identifier.
+ * @param identifier - unique string ID.
+ * @returns same schema as given, except now annotated.
+ */
 export const setIdentifier =
   (identifier: string) =>
   <Fields extends Schema.Struct.Fields>(
+    /** The schema to annotate. */
     schema: Schema.Struct<Fields>,
   ): typeof schema =>
     schema.annotations({identifier})
 
-/** Extract the node and edge options from the given AST. */
+/** Extract the `effect-schema-viz` options from given AST annotations. */
 export const getOptions: (
   ast: AST,
 ) => readonly [NodeAttributesObject, EdgeAttributesObject] = fanout(
@@ -57,6 +63,15 @@ export const getOptions: (
   ),
 )
 
+/**
+ * Just like [Effect/Schema/Struct](https://effect.website/docs/schema/basic-usage/#structs)
+ * except has two extra functions under the `named` and `styled` keys. These are
+ * syntax sugar for creating a struct and adding the identifier and Graphviz
+ * options manually.
+ *
+ * 1. `named` - takes as an extra 1st parameter the name of the object type.
+ * 1. `styles` - takes as an extra 1st parameter the name of the object type, and optional parameters for node and edge GraphViz attributes.
+ */
 export const Struct = Object.assign(Schema.Struct, {
   named:
     (identifier: string) =>

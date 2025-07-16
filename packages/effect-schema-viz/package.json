@@ -1,6 +1,6 @@
 {
   "name": "effect-schema-viz",
-  "description": "Compile your effect/Schema in Graphviz.",
+  "description": "Visualize your Effect/Schema in Graphviz.",
   "version": "1.0.0",
   "type": "module",
   "author": "Ran Eilam <ran@haag59.com> (https://middle-ages.github.io/)",
@@ -15,13 +15,15 @@
     "coverage": "coverage",
     "typecheck": "typecheck",
     "build": "build",
+    "build:docs": "build-docs",
     "example:basic": "src/test/examples/basic.ts",
     "example:dependencies": "src/test/examples/dependencies.ts",
     "example:kitchen-sink": "src/test/examples/kitchenSink.ts"
   },
   "devDependencies": {
     "config": "workspace:",
-    "scripts": "workspace:"
+    "scripts": "workspace:",
+    "typedoc": "catalog:"
   },
   "dependencies": {
     "ts-graphviz": "catalog:",
@@ -79,6 +81,9 @@
       }
     }
   },
+  "publishConfig": {
+    "directory": "dist"
+  },
   "private": false,
   "homepage": "https://github.com/middle-ages/haag59-monorepo/tree/main/packages/effect-schema-viz",
   "bugs": "https://github.com/middle-ages/haag59-monorepo/issues",
@@ -86,5 +91,5 @@
     "type": "git",
     "url": "git+https://github.com/middle-ages/haag59-monorepo/tree/main/packages/effect-schema-viz"
   },
-  "keywords": []
+  "keywords": ["effect", "schema", "graphviz"]
 }

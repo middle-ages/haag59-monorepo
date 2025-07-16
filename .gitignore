@@ -7,3 +7,4 @@ tmp
 storybook-static
 *storybook.log
 .eslintcache
+api-docs

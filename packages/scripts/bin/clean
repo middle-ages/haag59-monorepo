@@ -9,6 +9,7 @@ set -Eeuo pipefail
 clean_dirs=(
   "${WORKSPACE_DIST_DIR}"
   "${WORKSPACE_SB_BUILD_DIR}"
+  "${WORKSPACE_API_DOC_DIR}"
 )
 
 for dir in "${clean_dirs[@]}"; do
