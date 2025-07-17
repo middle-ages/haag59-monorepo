@@ -1,5 +1,6 @@
-import {Schema} from 'effect'
-import {compileClass, compileClassAst} from './class.js'
+import {ClassNode, PropertySignature, Reference} from '#model'
+import {Either, Schema} from 'effect'
+import {compileClassAst} from './class.js'
 
 describe('class', () => {
   class Person extends Schema.Class<Person>('Person')({
@@ -7,11 +8,20 @@ describe('class', () => {
     name: Schema.String,
   }) {}
 
-  console.log(Person.prototype)
-
-  console.log(compileClassAst(Person.ast))
-
   test('basic', () => {
-    expect(1 + 1).toBe(2)
+    expect(compileClassAst(Person.ast)).toEqual(
+      Either.right(
+        ClassNode('Person', [
+          PropertySignature({
+            name: 'id',
+            reference: Reference.Primitive('number'),
+          }),
+          PropertySignature({
+            name: 'name',
+            reference: Reference.Primitive('string'),
+          }),
+        ]),
+      ),
+    )
   })
 })

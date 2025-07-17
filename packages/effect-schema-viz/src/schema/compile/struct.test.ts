@@ -1,8 +1,9 @@
 import {Struct} from '#annotations'
 import {Node, PropertySignature, Reference} from '#model'
+import {Either, flow, type SchemaAST} from 'effect'
 import {Schema} from 'utilities'
+import {pluck} from 'utilities/Record'
 import {compileStructAst} from './struct.js'
-import {Either} from 'effect'
 
 const Foo = Struct.named('Foo')({foo: Schema.Literal('Foo')})
 
@@ -11,8 +12,8 @@ const Bar = Struct.named('Bar')({
   bar: Schema.optionalWith(Schema.Literal('Bar'), {exact: true}),
 })
 
-describe('compile', () => {
-  test('struct of literal', () => {
+describe('struct', () => {
+  test('basic', () => {
     expect(compileStructAst(Foo.ast)).toEqual(
       Either.right(
         Node('Foo', [
@@ -25,7 +26,7 @@ describe('compile', () => {
     )
   })
 
-  test('struct with dependencies', () => {
+  test('with dependencies', () => {
     expect(compileStructAst(Bar.ast)).toEqual(
       Either.right(
         Node('Bar', [
@@ -41,4 +42,22 @@ describe('compile', () => {
       ),
     )
   })
+
+  test('not a type literal ast', () => {
+    expect(errorType(Schema.Number.ast)).toBe('UnexpectedAst')
+  })
+
+  test('no identifier', () => {
+    expect(errorType(Schema.Struct({foo: Schema.Number}).ast)).toBe(
+      'MissingIdentifier',
+    )
+  })
 })
+
+const errorType: (ast: SchemaAST.AST) => string = flow(
+  compileStructAst,
+  Either.match({
+    onLeft: pluck('_tag'),
+    onRight: () => 'false negative',
+  }),
+)
