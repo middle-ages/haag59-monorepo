@@ -3,6 +3,7 @@ import {Node, PropertySignature, Reference} from '#model'
 import {Either, flow, type SchemaAST} from 'effect'
 import {Schema} from 'utilities'
 import {pluck} from 'utilities/Record'
+import {errorType} from '#test'
 import {compileStructAst} from './struct.js'
 
 const Foo = Struct.named('Foo')({foo: Schema.Literal('Foo')})
@@ -26,7 +27,7 @@ describe('struct', () => {
     )
   })
 
-  test('with dependencies', () => {
+  test('with relations', () => {
     expect(compileStructAst(Bar.ast)).toEqual(
       Either.right(
         Node('Bar', [
@@ -53,11 +54,3 @@ describe('struct', () => {
     )
   })
 })
-
-const errorType: (ast: SchemaAST.AST) => string = flow(
-  compileStructAst,
-  Either.match({
-    onLeft: pluck('_tag'),
-    onRight: () => 'false negative',
-  }),
-)

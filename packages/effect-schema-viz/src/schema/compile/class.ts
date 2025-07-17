@@ -1,8 +1,8 @@
+import {getOptions} from '#annotations'
 import {ClassNode, Node} from '#model'
 import {Data, Either, Option, SchemaAST} from 'effect'
 import {Array, pipe} from 'utilities'
 import {compilePropertySignatureAst} from './signature.js'
-import {getOptions} from '#annotations'
 
 export const compileClassAst: (
   ast: SchemaAST.AST,

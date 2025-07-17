@@ -1,8 +1,15 @@
 import {foldReferences} from '#fold'
 import {Reference} from '#model'
-import {Array, pipe} from 'effect'
+import {Array, Option, pipe} from 'effect'
 import {flow, tupled} from 'effect/Function'
-import {type AST, type OptionalType, type Type} from 'effect/SchemaAST'
+import {
+  getIdentifierAnnotation,
+  isDeclaration,
+  isTransformation,
+  type AST,
+  type OptionalType,
+  type Type,
+} from 'effect/SchemaAST'
 import {pluck} from 'utilities/Record'
 import {getIdentifierOrSerialize} from '../annotations.js'
 import {compileAstPrimitive} from './primitive.js'
@@ -28,7 +35,14 @@ export const compileAstReference = (ast: AST): Reference => {
       return pipe(ast, getIdentifierOrSerialize, tupled(Reference))
     }
     case 'Transformation': {
-      return compileAstReference(ast.to)
+      return pipe(
+        ast,
+        parseClassName,
+        Option.match({
+          onNone: () => compileAstReference(ast.to),
+          onSome: name => Reference(name, [name]),
+        }),
+      )
     }
     case 'Suspend': {
       return compileAstReference(ast.f())
@@ -59,12 +73,8 @@ export const compileAstReference = (ast: AST): Reference => {
   return compileAstPrimitive(ast)
 }
 
-const compileAstArray: (restHead: Type) => Reference = flow(
-  pluck('type'),
-  compileAstReference,
-  Array.of,
-  foldReferences.array,
-)
+const compileAstArray: (restHead: Type) => Reference = a =>
+  pipe(a, pluck('type'), compileAstReference, Array.of, foldReferences.array)
 
 const compileElements: (types: readonly OptionalType[]) => Reference[] =
   Array.map(({type, isOptional}) =>
@@ -74,3 +84,9 @@ const compileElements: (types: readonly OptionalType[]) => Reference[] =
 const compileRest: (types: readonly Type[]) => Reference[] = Array.map(
   flow(pluck('type'), compileAstReference, Reference.formatRestTuple),
 )
+
+/** Parses the identifier of a class AST. */
+const parseClassName = (ast: AST): Option.Option<string> =>
+  isTransformation(ast) && isDeclaration(ast.to)
+    ? getIdentifierAnnotation(ast.to)
+    : Option.none()

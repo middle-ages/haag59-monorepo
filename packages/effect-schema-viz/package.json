@@ -74,6 +74,12 @@
         "import": "./src/schema/compile.js"
       }
     },
+    "#test": {
+      "import": {
+        "types": "./src/test.d.ts",
+        "import": "./src/test.js"
+      }
+    },
     "#schemas": {
       "import": {
         "types": "./src/test/schemas.d.ts",
@@ -91,5 +97,9 @@
     "type": "git",
     "url": "git+https://github.com/middle-ages/haag59-monorepo/tree/main/packages/effect-schema-viz"
   },
-  "keywords": ["effect", "schema", "graphviz"]
+  "keywords": [
+    "effect",
+    "schema",
+    "graphviz"
+  ]
 }
