@@ -8,4 +8,4 @@ export {
   getNodeOptions,
   setNodeOptions,
 } from '#annotations'
-export {type AnyStructs} from '#compile'
+export {type AnyStructs} from './src/schema/compile/struct.js'

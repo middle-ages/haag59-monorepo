@@ -4,7 +4,7 @@ import {Array, pipe} from 'effect'
 import {flow, tupled} from 'effect/Function'
 import {type AST, type OptionalType, type Type} from 'effect/SchemaAST'
 import {pluck} from 'utilities/Record'
-import {getIdentifierOrSerialize} from './annotations.js'
+import {getIdentifierOrSerialize} from '../annotations.js'
 import {compileAstPrimitive} from './primitive.js'
 
 /**
@@ -59,8 +59,12 @@ export const compileAstReference = (ast: AST): Reference => {
   return compileAstPrimitive(ast)
 }
 
-const compileAstArray = (restHead: Type): Reference =>
-  pipe(restHead.type, compileAstReference, Array.of, foldReferences.array)
+const compileAstArray: (restHead: Type) => Reference = flow(
+  pluck('type'),
+  compileAstReference,
+  Array.of,
+  foldReferences.array,
+)
 
 const compileElements: (types: readonly OptionalType[]) => Reference[] =
   Array.map(({type, isOptional}) =>

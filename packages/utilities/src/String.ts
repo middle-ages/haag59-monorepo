@@ -1,7 +1,9 @@
-import {Array, pipe, String} from 'effect'
+import * as SW from 'tty-strings'
+import {Array, Number, pipe, String, Tuple} from 'effect'
 import type {EndoOf} from './Function.js'
-import type {Pair} from './Pair.js'
+import {pairMap, type Pair} from './Pair.js'
 import type {Predicate} from 'effect/Predicate'
+import {floorMod} from './Number.js'
 
 export * from 'effect/String'
 
@@ -135,10 +137,6 @@ export const prefix =
 /** Suffix a string. A curried version of `String.concat`. */
 export const suffix: (suffix: string) => EndoOf<string> = String.concat
 
-/** Lower the case of the 1st letter in the given string. */
-export const toLowerCaseFirst: EndoOf<string> = s =>
-  String.toLowerCase(s.slice(0, 1)) + s.slice(1)
-
 /** Add an `s` suffix to the word unless the given number equals one. */
 export const plural = (word: string, n: number): string =>
   n === 1 ? word : `${word}s`
@@ -158,3 +156,45 @@ export const isEqual =
   (self: string): Predicate<string> =>
   other =>
     self === other
+
+/** ANSI/unicode string width. */
+export const stringWidth = SW.stringWidth as (s: string) => number
+
+/** Convert a list of strings to their lengths. */
+export const stringWidths = Array.map<string[], number>(stringWidth)
+
+/** A string `n` characters long made up of spaces. */
+export const nSpaces = (n: number): string => pipe(' ', String.repeat(n))
+
+/** Raise the case of the 1st letter in the given string. */
+export const toUpperCaseFirst = <const S extends string>(s: S) =>
+  (s.charAt(0).toUpperCase() + s.slice(1)) as Capitalize<S>
+
+/** Lower the case of the 1st letter in the given string. */
+export const toLowerCaseFirst = <const S extends string>(s: S) =>
+  (s.charAt(0).toLowerCase() + s.slice(1)) as Uncapitalize<S>
+
+/** Fill available space with given multiline fill string. */
+export function fillLines(available: number) {
+  return (fill: Array.NonEmptyArray<string>): string[] => {
+    const fillLength = fill.length
+    if (available === 0) return []
+
+    const Δ = available - fillLength
+    if (Δ <= 0) return fill.slice(0, available)
+
+    const [quotient, remainder] = pipe(
+      floorMod(available, fillLength),
+      Tuple.mapFirst(Number.decrement),
+      pairMap(n => pipe(fill, Array.replicate(n), Array.flatten)),
+    )
+
+    return [...quotient, ...remainder]
+  }
+}
+
+export const widestLine = (lines: string[]): number =>
+  Array.max(Number.Order)([0, ...stringWidths(lines)])
+
+export const hSeparator = (lines: string[]): string =>
+  pipe('─', String.repeat(widestLine(lines)))

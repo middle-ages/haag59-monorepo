@@ -1,4 +1,4 @@
-import {compileStruct, type AnyStructs} from '#compile'
+import {compileStructAst, type AnyStructs} from './schema/compile/struct.js'
 import {addNodes} from '#render'
 import {Array, pipe} from 'effect'
 import {
@@ -17,7 +17,7 @@ export const addStructs =
   (graph: RootGraphModel) =>
   /** Array of `Effect/Schema` struct to add to graph. */
   (structs: AnyStructs): RootGraphModel =>
-    pipe(structs, Array.map(compileStruct), addNodes(graph))
+    pipe(structs, Array.map(compileStructAst), addNodes(graph))
 
 /**
  * Compile the given Effect/Schema structs and add them to a new graph.

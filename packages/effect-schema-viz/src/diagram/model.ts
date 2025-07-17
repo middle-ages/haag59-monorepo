@@ -36,7 +36,10 @@ export type IndexSignature = Signatures[1]
 /** A diagram node representing a struct or record type. */
 export interface Node extends Named {
   /** List of index of property signatures. */
-  signatures: Signature[]
+  signatures: readonly Signature[]
+
+  /** True if this object-like schema is for a _class type_. */
+  isClass: boolean
 
   /** Graphviz node options. */
   nodeOptions?: NodeAttributesObject
@@ -140,7 +143,7 @@ export const Node = (
   name: string,
 
   /** List of struct property and/or index signatures. */
-  signatures: Signature[],
+  signatures: readonly Signature[],
 
   /** Optional Graphviz node options. */
   nodeOptions: NodeAttributesObject = {},
@@ -152,6 +155,13 @@ export const Node = (
   signatures,
   nodeOptions,
   edgeOptions,
+  isClass: false,
+})
+
+/** Create a diagram node representing a class type. */
+export const ClassNode = (...args: Parameters<typeof Node>): Node => ({
+  ...Node(...args),
+  isClass: true,
 })
 
 /** Collect all reference targets from node signatures. */

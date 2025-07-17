@@ -1,3 +1,4 @@
+import type {HKT} from 'effect'
 import type {FunctionN} from 'effect/Function'
 
 export * from 'effect/Function'
@@ -52,3 +53,17 @@ export const flip =
   b =>
   a =>
     f(a)(b)
+
+/**
+ * ```
+ * KindEndo<F extends TypeLambda> ≡ <A>(t: Kind1<F, A>) => Kind1<F, A>
+ * ```
+ */
+export type KindEndo<F extends HKT.TypeLambda> = <
+  A,
+  E = unknown,
+  R = unknown,
+  I = never,
+>(
+  _: HKT.Kind<F, I, R, E, A>,
+) => typeof _

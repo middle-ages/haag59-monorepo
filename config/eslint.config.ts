@@ -74,8 +74,12 @@ const config = tslint.config(
       'unicorn/no-abusive-eslint-disable': 'off',
 
       // Not needed.
-      'sonarjs/no-nested-conditional': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'off',
+      '@typescript-eslint/no-wrapper-object-types': 'off',
       'unicorn/consistent-function-scoping': 'off',
+      'unicorn/throw-new-error': 'off',
+      'sonarjs/no-nested-conditional': 'off',
+      'sonarjs/void-use': 'off',
 
       // Can't do module augmentation.
       '@typescript-eslint/no-namespace': 'off',

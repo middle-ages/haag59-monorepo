@@ -20,7 +20,8 @@
     "scripts": "workspace:"
   },
   "dependencies": {
-    "fast-graph": "catalog:"
+    "fast-graph": "catalog:",
+    "tty-strings": "catalog:"
   },
   "exports": {
     ".": {
