@@ -60,6 +60,11 @@ const TreeNode = Struct.named('TreeNode')({
   nodes: Schema.Array(Schema.suspend((): Schema.Schema<TreeNode> => TreeNode)),
 })
 
+export class Person extends Schema.Class<Person>('Person')({
+  id: Schema.Number,
+  name: Schema.String,
+}) {}
+
 describe('reference', () => {
   testReference('transformation', transform, 'number')
   describe('union', () => {
@@ -164,4 +169,6 @@ describe('reference', () => {
   })
 
   testReference('suspend', TreeNode, 'TreeNode', ['TreeNode'])
+
+  testReference('class', Person, 'Person', ['Person'])
 })

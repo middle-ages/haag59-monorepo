@@ -29,7 +29,7 @@ const parseClassAst = (
 ): Either.Either<Parsed, ClassError> => {
   // A class is a transform.
   if (!SchemaAST.isTransformation(ast)) {
-    return incorrectTransform(ast)
+    return notAClassTransform(ast)
   }
 
   // A class is a transform from a type literal to a declaration.
@@ -47,17 +47,24 @@ const parseClassAst = (
     )
   }
 
-  return incorrectTransform(ast)
+  return notAClassTransform(ast)
 }
 
-const [incorrectTransform, missingIdentifier] = [
-  (ast: SchemaAST.AST) => Either.left(new ClassError.IncorrectTransform({ast})),
+export const isClassAst = (
+  ast: SchemaAST.AST,
+): ast is SchemaAST.Transformation =>
+  SchemaAST.isTransformation(ast) &&
+  SchemaAST.isTypeLiteral(ast.from) &&
+  SchemaAST.isDeclaration(ast.to)
+
+export const [notAClassTransform, missingIdentifier] = [
+  (ast: SchemaAST.AST) => Either.left(new ClassError.NotAClassTransform({ast})),
   (ast: SchemaAST.AST) => Either.left(new ClassError.MissingIdentifier({ast})),
 ]
 
 export namespace ClassError {
-  export class IncorrectTransform extends Data.TaggedError(
-    'IncorrectClassTransform',
+  export class NotAClassTransform extends Data.TaggedError(
+    'NotAClassTransform',
   )<{
     ast: SchemaAST.AST
   }> {}
@@ -68,5 +75,5 @@ export namespace ClassError {
 }
 
 export type ClassError =
-  | InstanceType<typeof ClassError.IncorrectTransform>
+  | InstanceType<typeof ClassError.NotAClassTransform>
   | InstanceType<typeof ClassError.MissingIdentifier>

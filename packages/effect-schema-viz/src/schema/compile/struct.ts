@@ -1,6 +1,5 @@
 import {Node} from '#model'
-import {Data, Either, Option, pipe, type SchemaAST} from 'effect'
-import {getIdentifierAnnotation} from 'effect/SchemaAST'
+import {Data, Either, Option, pipe, SchemaAST} from 'effect'
 import {Array} from 'utilities'
 import {getOptions} from '../annotations.js'
 import {compilePropertySignatureAst} from './signature.js'
@@ -14,7 +13,7 @@ export const compileStructAst = (
 
   return pipe(
     ast,
-    getIdentifierAnnotation,
+    SchemaAST.getIdentifierAnnotation,
     Option.match({
       onNone: () => missingIdentifier(ast),
       onSome: identifier =>
@@ -29,7 +28,10 @@ export const compileStructAst = (
   )
 }
 
-const [unexpectedAst, missingIdentifier] = [
+export const isStructAst = (ast: SchemaAST.AST): ast is SchemaAST.Literal =>
+  SchemaAST.isLiteral(ast)
+
+export const [unexpectedAst, missingIdentifier] = [
   (ast: SchemaAST.AST) => Either.left(new StructError.UnexpectedAst({ast})),
   (ast: SchemaAST.AST) => Either.left(new StructError.MissingIdentifier({ast})),
 ]

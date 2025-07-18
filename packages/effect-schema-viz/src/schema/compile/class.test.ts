@@ -1,7 +1,7 @@
 import {ClassNode, PropertySignature, Reference} from '#model'
+import {errorType} from '#test'
 import {Either, Schema} from 'effect'
 import {compileClassAst} from './class.js'
-import {errorType} from '#test'
 
 describe('class', () => {
   class Person extends Schema.Class<Person>('Person')({

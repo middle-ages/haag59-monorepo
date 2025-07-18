@@ -5,37 +5,42 @@ import {
   type GraphAttributesObject,
   type RootGraphModel,
 } from 'ts-graphviz'
-import {Node, type Signature} from './model.js'
 import {surround, unlines} from 'utilities/String'
+import {Node, type Signature} from './model.js'
+
+/** Add the given node and its edges to the given graph. */
+export const addNode =
+  /** Graph that will get the new node and its edges. */
+  (graph: RootGraphModel) =>
+    /** Node to add. */
+    (node: Node): RootGraphModel => {
+      const {name, nodeOptions = {}, edgeOptions = {}} = node
+      const {label, ...rest} = nodeOptions
+
+      graph.node(name, {
+        label: label ?? pipe(node, buildLabel, surround.angledBrackets),
+        ...rest,
+      })
+
+      const targets = Node.collectTargets(node)
+      if (Array.isNonEmptyArray(targets)) {
+        for (const target of targets) {
+          graph.edge([node.name, target], edgeOptions)
+        }
+      }
+
+      return graph
+    }
 
 /** Add the given nodes and their edges to the given graph. */
 export const addNodes =
   /** Graph that will get the new nodes and edges. */
   (graph: RootGraphModel) =>
     /** Nodes to add. */
-    (nodes: Node[]): RootGraphModel => {
-      // Add nodes.
+    (nodes: readonly Node[]): RootGraphModel => {
       for (const node of nodes) {
-        const {name, nodeOptions = {}} = node
-        const {label, ...rest} = nodeOptions
-
-        graph.node(name, {
-          label: label ?? pipe(node, buildLabel, surround.angledBrackets),
-          ...rest,
-        })
+        addNode(graph)(node)
       }
-
-      // Add edges.
-      for (const node of nodes) {
-        const targets = Node.collectTargets(node)
-        const {edgeOptions = {}} = node
-        if (Array.isNonEmptyArray(targets)) {
-          for (const target of targets) {
-            graph.edge([node.name, target], edgeOptions)
-          }
-        }
-      }
-
       return graph
     }
 
