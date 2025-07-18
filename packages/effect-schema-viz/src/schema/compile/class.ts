@@ -41,7 +41,7 @@ const parseClassAst = (
       SchemaAST.getIdentifierAnnotation,
       // A class will have an identifier in its declaration.
       Option.match({
-        onNone: () => missingIdentifier(ast),
+        onNone: () => missingClassIdentifier(ast),
         onSome: name => Either.right({name, propertySignatures}),
       }),
     )
@@ -57,9 +57,10 @@ export const isClassAst = (
   SchemaAST.isTypeLiteral(ast.from) &&
   SchemaAST.isDeclaration(ast.to)
 
-export const [notAClassTransform, missingIdentifier] = [
+export const [notAClassTransform, missingClassIdentifier] = [
   (ast: SchemaAST.AST) => Either.left(new ClassError.NotAClassTransform({ast})),
-  (ast: SchemaAST.AST) => Either.left(new ClassError.MissingIdentifier({ast})),
+  (ast: SchemaAST.AST) =>
+    Either.left(new ClassError.MissingClassIdentifier({ast})),
 ]
 
 export namespace ClassError {
@@ -69,11 +70,13 @@ export namespace ClassError {
     ast: SchemaAST.AST
   }> {}
 
-  export class MissingIdentifier extends Data.TaggedError('MissingIdentifier')<{
+  export class MissingClassIdentifier extends Data.TaggedError(
+    'MissingClassIdentifier',
+  )<{
     ast: SchemaAST.AST
   }> {}
 }
 
 export type ClassError =
   | InstanceType<typeof ClassError.NotAClassTransform>
-  | InstanceType<typeof ClassError.MissingIdentifier>
+  | InstanceType<typeof ClassError.MissingClassIdentifier>

@@ -10,11 +10,11 @@ describe('result', () => {
   describe('combine', () => {
     const ast = Schema.Number.ast
 
-    const nodes = [Node('Foo', []), Node('Bar', [])] as const
-    const errors = [unexpectedAst(ast), notAClassTransform(ast)] as const
-
-    const [foo, bar] = nodes
-    const [error1, error2] = errors
+    const [foo, bar] = [Node('Foo', []), Node('Bar', [])] as const
+    const [error1, error2] = [
+      unexpectedAst(ast),
+      notAClassTransform(ast),
+    ] as const
 
     const actual = combine([
       error1,
@@ -24,10 +24,10 @@ describe('result', () => {
     ])
 
     test('nodes', () => {
-      expect(These.rightOption(actual)).toEqual(Option.some(nodes))
+      expect(These.rightOption(actual)).toEqual(Option.some([foo, bar]))
     })
 
-    test('nodes', () => {
+    test('errors', () => {
       const actualTags = pipe(
         actual,
         These.leftOption,

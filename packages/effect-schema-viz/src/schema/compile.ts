@@ -102,3 +102,6 @@ export const compileSchemas: (
       ? CompileResult.combine(found)
       : CompileResult.noObjectTypesFound,
 )
+
+export const isObjectTypeAst = (ast: SchemaAST.AST) =>
+  isStructAst(ast) || isClassAst(ast)
