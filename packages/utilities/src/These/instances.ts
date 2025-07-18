@@ -1,22 +1,26 @@
 import {Bicovariant as BI, Semigroup} from '@effect/typeclass'
 import {Equivalence, Function, Order, pipe} from 'effect'
-import {tinyArray} from 'effect-ts-laws'
-import fc from 'fast-check'
-import type {These, TheseTypeLambda} from './index.js'
-import {Both, Left, match, Right} from './index.js'
+import {
+  Both,
+  Left,
+  match,
+  Right,
+  type These,
+  type TheseTypeLambda,
+} from './index.js'
 
 export const bimap: BI.Bicovariant<TheseTypeLambda>['bimap'] = Function.dual(
   3,
-  <E1, E2, A, B>(
-    fa: These<A, E1>,
-    f: (e: E1) => E2,
-    g: (a: A) => B,
-  ): These<B, E2> =>
+  <E1, E2, R1, R2>(
+    self: These<R1, E1>,
+    f: (r: R1) => R2,
+    g: (e: E1) => E2,
+  ): These<R2, E2> =>
     pipe(
-      fa,
-      match<A, E1, These<B, E2>>({
-        Left: ({left}) => pipe(left, g, Left.from<B, E2>),
-        Right: ({right}) => pipe(right, f, Right.from<B, E2>),
+      self,
+      match<R1, E1, These<R2, E2>>({
+        Right: ({right}) => pipe(right, f, Right.from<R2, E2>),
+        Left: ({left}) => pipe(left, g, Left.from<R2, E2>),
         Both: ({left, right}) => Both({left: g(left), right: f(right)}),
       }),
     ),
@@ -30,39 +34,39 @@ export const [mapLeft, mapRight] = [
 ]
 
 export const getEquivalence =
-  <B>(equalsB: Equivalence.Equivalence<B>) =>
-  <A>(
-    equalsA: Equivalence.Equivalence<A>,
-  ): Equivalence.Equivalence<These<A, B>> =>
-  (a, b) =>
-    a._tag === b._tag &&
+  <E>(equalsE: Equivalence.Equivalence<E>) =>
+  <R>(
+    equalsR: Equivalence.Equivalence<R>,
+  ): Equivalence.Equivalence<These<R, E>> =>
+  (self, that) =>
+    self._tag === that._tag &&
     pipe(
-      a,
-      match<A, B, boolean>({
-        Left: ({left}) => equalsA(left, (b as Left<A, B>).left),
-        Right: ({right}) => equalsB(right, (b as Right<A, B>).right),
+      self,
+      match<R, E, boolean>({
+        Left: ({left}) => equalsE(left, (that as Left<R, E>).left),
+        Right: ({right}) => equalsR(right, (that as Right<R, E>).right),
         Both: ({left, right}) =>
-          equalsA(left, (b as Left<A, B>).left) &&
-          equalsB(right, (b as Right<A, B>).right),
+          equalsE(left, (that as Left<R, E>).left) &&
+          equalsR(right, (that as Right<R, E>).right),
       }),
     )
 
 export const getOrder =
-  <B>(orderB: Order.Order<B>) =>
-  <A>(orderA: Order.Order<A>): Order.Order<These<A, B>> =>
-  (a, b) => {
-    const tagCompare = a._tag.localeCompare(b._tag)
+  <E>(orderE: Order.Order<E>) =>
+  <R>(orderR: Order.Order<R>): Order.Order<These<R, E>> =>
+  (self, that) => {
+    const tagCompare = self._tag.localeCompare(that._tag)
     return (
       tagCompare === 0
         ? pipe(
-            a,
-            match<A, B, -1 | 0 | 1>({
-              Left: ({left}) => orderA(left, (b as Left<A, B>).left),
-              Right: ({right}) => orderB(right, (b as Right<A, B>).right),
+            self,
+            match<R, E, -1 | 0 | 1>({
+              Left: ({left}) => orderE(left, (that as Left<R, E>).left),
+              Right: ({right}) => orderR(right, (that as Right<R, E>).right),
               Both: ({left, right}) => {
                 const [leftCompare, rightCompare] = [
-                  orderA(left, (b as Left<A, B>).left),
-                  orderB(right, (b as Right<A, B>).right),
+                  orderE(left, (that as Left<R, E>).left),
+                  orderR(right, (that as Right<R, E>).right),
                 ]
                 return leftCompare === 0 ? rightCompare : leftCompare
               },
@@ -72,80 +76,45 @@ export const getOrder =
     ) as -1 | 0 | 1
   }
 
-export const getArbitrary =
-  <B>(b: fc.Arbitrary<B>) =>
-  <A>(a: fc.Arbitrary<A>) =>
-    fc.oneof(
-      a.map(left => Left<A, B>({left})),
-      b.map(right => Right<A, B>({right})),
-      a.chain(left => b.map(right => Both<A, B>({left, right}))),
-    )
-
-/**
- * A valid array of `These` will always begin with a possibly empty list of
- * `Both`, followed by a possibly empty list of either `Left` or `Right`,
- * but never a mix.
- */
-export const getArrayArbitrary =
-  <B>(b: fc.Arbitrary<B>) =>
-  <A>(a: fc.Arbitrary<A>) => {
-    const init: fc.Arbitrary<Both<A, B>[]> = tinyArray(
-      a.chain(left => b.map<Both<A, B>>(right => Both<A, B>({left, right}))),
-    )
-    const tail: fc.Arbitrary<These<A, B>[]> = fc.oneof(
-      // left is longer
-      //      pipe(Left.from, a.map<These<A, B>>, tinyArray),
-      tinyArray(a.map<These<A, B>>(Left.from)),
-      // right is longer
-      tinyArray(b.map<These<A, B>>(Right.from)),
-      // left.length = right.length
-      fc.constant([] as These<A, B>[]),
-    )
-
-    return init.chain(init =>
-      tail.map(tail => [...init, ...tail] as These<A, B>[]),
-    )
-  }
-
 export const combine =
-  <B>(rightSemigroup: Semigroup.Semigroup<B>) =>
-  <A>(leftSemigroup: Semigroup.Semigroup<A>) =>
-  (self: These<A, B>, that: These<A, B>): These<A, B> => {
-    const by = match<A, B, These<A, B>>,
-      [addLeft, addRight] = [leftSemigroup.combine, rightSemigroup.combine]
+  <E>(eSemigroup: Semigroup.Semigroup<E>) =>
+  <R>(rSemigroup: Semigroup.Semigroup<R>) =>
+  (self: These<R, E>, that: These<R, E>): These<R, E> => {
+    const by = match<R, E, These<R, E>>,
+      [addLeft, addRight] = [eSemigroup.combine, rSemigroup.combine]
 
     return pipe(
       self,
       by({
-        Left: ({left: selfLeft}) =>
+        Left: ({left: selfE}) =>
           pipe(
             that,
             by({
-              Left: ({left}) => Left.from(addLeft(selfLeft, left)),
-              Right: ({right}) => Both.from(selfLeft, right),
-              Both: ({left, right}) =>
-                Both.from(addLeft(selfLeft, left), right),
+              Left: ({left: thatE}) => Left.from(addLeft(selfE, thatE)),
+              Right: ({right: thatR}) => Both.from(thatR, selfE),
+              Both: ({left: thatE, right: thatR}) =>
+                Both.from(thatR, addLeft(selfE, thatE)),
             }),
           ),
-        Right: ({right: selfRight}) =>
+        Right: ({right: selfR}) =>
           pipe(
             that,
             by({
-              Left: ({left}) => Both.from(left, selfRight),
-              Right: ({right}) => Right.from(addRight(selfRight, right)),
-              Both: ({left, right}) =>
-                Both.from(left, addRight(selfRight, right)),
+              Left: ({left: thatE}) => Both.from(selfR, thatE),
+              Right: ({right: thatR}) => Right.from(addRight(selfR, thatR)),
+              Both: ({left: thatE, right: thatR}) =>
+                Both.from(addRight(selfR, thatR), thatE),
             }),
           ),
-        Both: ({left: selfLeft, right: selfRight}) =>
+        Both: ({left: selfE, right: selfR}) =>
           pipe(
             that,
             by({
-              Left: ({left}) => Both.from(addLeft(selfLeft, left), selfRight),
-              Right: ({right}) =>
-                Both.from(selfLeft, addRight(selfRight, right)),
-              Both: ({left, right}) =>
-                Both.from(addLeft(selfLeft, left), addRight(selfRight, right)),
+              Left: ({left: thatE}) => Both.from(selfR, addLeft(selfE, thatE)),
+              Right: ({right: thatR}) =>
+                Both.from(addRight(selfR, thatR), selfE),
+              Both: ({left: thatE, right: thatR}) =>
+                Both.from(addRight(selfR, thatR), addLeft(selfE, thatE)),
             }),
           ),
       }),

@@ -8,8 +8,8 @@ import {HKT} from 'effect'
  * ```
  */
 export type Composed<
-  Outer extends HKT.TypeLambda,
-  Inner extends HKT.TypeLambda,
+  Outer extends HKT.Semigroup,
+  Inner extends HKT.Semigroup,
   A,
   E1 = unknown,
   R1 = unknown,
@@ -27,9 +27,9 @@ export type Composed<
  * ```
  */
 export interface ComposedUnary<
-  Outer extends HKT.TypeLambda,
-  Inner extends HKT.TypeLambda,
-  Returns extends HKT.TypeLambda,
+  Outer extends HKT.Semigroup,
+  Inner extends HKT.Semigroup,
+  Returns extends HKT.Semigroup,
   A,
   B,
   E1 = unknown,

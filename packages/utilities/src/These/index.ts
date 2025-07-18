@@ -1,17 +1,38 @@
 import {Function, HKT, pipe} from 'effect'
 import {taggedEnum, type TaggedEnum} from 'effect/Data'
 
-export type LeftOrRight<ST extends 'left' | 'right', A> = Record<ST, A>
+export type OneSide<Side extends 'left' | 'right', A> = Record<Side, A>
 
-export type These<A, B> = TaggedEnum<{
-  Left: LeftOrRight<'left', A>
-  Right: LeftOrRight<'right', B>
-  Both: LeftOrRight<'left', A> & LeftOrRight<'right', B>
+export type LeftSide<E> = OneSide<'left', E>
+export type RightSide<R> = OneSide<'right', R>
+export interface BothSides<R, E> {
+  left: E
+  right: R
+}
+
+/**
+ * Just like `Either`, a data type representing a union of a value of the `Left`
+ * type and a value of the `Right` type.
+ *
+ * Unlike `Either`, `These` has a third member in its union, called `Both`, that
+ * has both a `Left` value _and_ a `Right` value. Representing, for example, the
+ * results of an operation that can succeed partially, returning some errors with
+ * its results.
+ */
+export type These<R, E> = TaggedEnum<{
+  Left: LeftSide<E>
+  Right: RightSide<R>
+  Both: BothSides<R, E>
 }>
 
-export type Left<A, B> = TaggedEnum.Value<These<A, B>, 'Left'>
-export type Right<A, B> = TaggedEnum.Value<These<A, B>, 'Right'>
-export type Both<A, B> = TaggedEnum.Value<These<A, B>, 'Both'>
+/** A `These` with only a `left` and no `right`. */
+export type Left<R, E> = TaggedEnum.Value<These<R, E>, 'Left'>
+
+/** A `These` with only a `right` and no `left`. */
+export type Right<R, E> = TaggedEnum.Value<These<R, E>, 'Right'>
+
+/** A `These` with both a `right` and a `left`. */
+export type Both<R, E> = TaggedEnum.Value<These<R, E>, 'Both'>
 
 export interface TheseDefinition extends TaggedEnum.WithGenerics<2> {
   readonly taggedEnum: These<this['A'], this['B']>
@@ -31,34 +52,34 @@ export const {
 } = taggedEnum<TheseDefinition>()
 
 export const match =
-  <A, B, R>({
+  <R, E, Result>({
     Left: onLeft,
     Right: onRight,
     Both: onBoth,
   }: {
-    Left: (left: Left<A, B>) => R
-    Right: (right: Right<A, B>) => R
-    Both: (both: Both<A, B>) => R
+    Left: (left: Left<R, E>) => Result
+    Right: (right: Right<R, E>) => Result
+    Both: (both: Both<R, E>) => Result
   }) =>
-  (self: These<A, B>) =>
+  (self: These<R, E>) =>
     pipe(
       self,
       $match({
-        Left: (left: Left<A, B>): R => onLeft(left),
-        Right: (right: Right<A, B>): R => onRight(right),
-        Both: (both: Both<A, B>): R => onBoth(both),
+        Left: (left: Left<R, E>): Result => onLeft(left),
+        Right: (right: Right<R, E>): Result => onRight(right),
+        Both: (both: Both<R, E>): Result => onBoth(both),
       }),
     )
 
 export const [Left, Right, Both] = [
   Object.assign(_Left, {
-    from: <A, B>(left: A): These<A, B> => Left({left}),
+    from: <R, E>(left: E): These<R, E> => Left({left}),
   }),
   Object.assign(_Right, {
-    from: <A, B>(right: B): These<A, B> => Right({right}),
+    from: <R, E>(right: R): These<R, E> => Right({right}),
   }),
   Object.assign(_Both, {
-    from: <A, B>(left: A, right: B): These<A, B> => Both({left, right}),
+    from: <R, E>(right: R, left: E): These<R, E> => Both({left, right}),
   }),
 ]
 
@@ -69,32 +90,32 @@ export const [isLeft, isRight, isBoth] = [
 ]
 
 export const setLeft: {
-    <A, B, C>(self: These<A, B>, c: C): These<C, B>
-    <C>(c: C): <A, B>(self: These<A, B>) => These<C, B>
+    <R, E, D>(self: These<R, E>, d: D): These<R, D>
+    <D>(d: D): <R, E>(self: These<R, E>) => These<R, D>
   } = Function.dual(
     2,
-    <A, B, C>(self: These<A, B>, c: C): These<C, B> =>
+    <R, E, D>(self: These<R, E>, d: D): These<R, D> =>
       pipe(
         self,
-        match<A, B, These<C, B>>({
-          Left: () => Left.from(c),
-          Right: ({right}) => Both.from(c, right),
-          Both: ({right}) => Both.from(c, right),
+        match<R, E, These<R, D>>({
+          Left: () => Left.from(d),
+          Right: ({right}) => Both.from(right, d),
+          Both: ({right}) => Both.from(right, d),
         }),
       ),
   ),
   setRight: {
-    <A, B, C>(self: These<A, B>, c: C): These<A, C>
-    <C>(c: C): <A, B>(self: These<A, B>) => These<A, C>
+    <R, E, S>(self: These<R, E>, s: S): These<S, E>
+    <S>(s: S): <R, E>(self: These<R, E>) => These<S, E>
   } = Function.dual(
     2,
-    <A, B, C>(self: These<A, B>, c: C): These<A, C> =>
+    <R, E, S>(self: These<R, E>, s: S): These<S, E> =>
       pipe(
         self,
-        match<A, B, These<A, C>>({
-          Left: ({left}) => Both.from(left, c),
-          Right: () => Right.from(c),
-          Both: ({left}) => Both.from(left, c),
+        match<R, E, These<S, E>>({
+          Left: ({left}) => Both.from(s, left),
+          Right: () => Right.from(s),
+          Both: ({left}) => Both.from(s, left),
         }),
       ),
   )

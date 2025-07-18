@@ -1,7 +1,6 @@
 import type {Semigroup} from '@effect/typeclass/Semigroup'
-import {Array, Either, flow, Function, identity, pipe} from 'effect'
+import {Array, Either, flow, Function, identity, Option, pipe} from 'effect'
 import {fanout} from 'effect-ts-folds'
-import {isSome, none, some, type Option, type Some} from 'effect/Option'
 import {
   Both,
   isBoth,
@@ -12,100 +11,77 @@ import {
   Right,
   type These,
 } from './index.js'
-import {mapLeft, mapRight} from './instances.js'
 
 export const [leftOption, rightOption, onlyLeft, onlyRight]: [
-  <A, B>(self: These<A, B>) => Option<A>,
-  <A, B>(self: These<A, B>) => Option<B>,
-  <A, B>(self: These<A, B>) => Option<A>,
-  <A, B>(self: These<A, B>) => Option<B>,
+  <R, E>(self: These<R, E>) => Option.Option<E>,
+  <R, E>(self: These<R, E>) => Option.Option<R>,
+  <R, E>(self: These<R, E>) => Option.Option<E>,
+  <R, E>(self: These<R, E>) => Option.Option<R>,
 ] = [
-  self => (isLeft(self) || isBoth(self) ? some(self.left) : none()),
-  self => (isRight(self) || isBoth(self) ? some(self.right) : none()),
-  self => (isLeft(self) ? some(self.left) : none()),
-  self => (isRight(self) ? some(self.right) : none()),
+  self =>
+    isLeft(self) || isBoth(self) ? Option.some(self.left) : Option.none(),
+  self =>
+    isRight(self) || isBoth(self) ? Option.some(self.right) : Option.none(),
+  self => (isLeft(self) ? Option.some(self.left) : Option.none()),
+  self => (isRight(self) ? Option.some(self.right) : Option.none()),
 ]
 
 export const [onlyOne, onlyBoth]: [
-  <A, B>(self: These<A, B>) => Option<Either.Either<B, A>>,
-  <A, B>(self: These<A, B>) => Option<[A, B]>,
+  <R, E>(self: These<R, E>) => Option.Option<Either.Either<R, E>>,
+  <R, E>(self: These<R, E>) => Option.Option<[R, E]>,
 ] = [
   self =>
     isBoth(self)
-      ? none()
-      : some(isLeft(self) ? Either.left(self.left) : Either.right(self.right)),
-  self => (isBoth(self) ? some([self.left, self.right]) : none()),
+      ? Option.none()
+      : Option.some(
+          isLeft(self) ? Either.left(self.left) : Either.right(self.right),
+        ),
+  self => (isBoth(self) ? Option.some([self.right, self.left]) : Option.none()),
 ]
 
-export const pad = <A, B>(self: These<A, B>): [Option<A>, Option<B>] =>
+/** Convert a `These` into a pair of right option and left option. */
+export const pad = <R, E>(
+  self: These<R, E>,
+): [Option.Option<R>, Option.Option<E>] =>
   pipe(
     self,
     match({
-      Left: ({left}) => [some(left), none()],
-      Right: ({right}) => [none(), some(right)],
-      Both: ({left, right}) => [some(left), some(right)],
+      Left: ({left}) => [Option.none(), Option.some(left)],
+      Right: ({right}) => [Option.some(right), Option.none()],
+      Both: ({left, right}) => [Option.some(right), Option.some(left)],
     }),
   )
 
-export const addLeft = <A>(
-    F: Semigroup<A>,
-  ): {
-    <B>(self: These<A, B>, child: A): These<A, B>
-    (child: A): <B>(self: These<A, B>) => These<A, B>
-  } =>
-    Function.dual(
-      2,
-      <B>(self: These<A, B>, child: A): These<A, B> =>
-        isRight(self)
-          ? Both.from(child, self.right)
-          : mapRight(self, self => F.combine(self, child)),
-    ),
-  addRight = <B>(
-    F: Semigroup<B>,
-  ): {
-    <A>(self: These<A, B>, child: B): These<A, B>
-    (child: B): <A>(self: These<A, B>) => These<A, B>
-  } =>
-    Function.dual(
-      2,
-      <A>(self: These<A, B>, child: B): These<A, B> =>
-        isLeft(self)
-          ? Both.from(self.left, child)
-          : mapLeft(self, self => F.combine(self, child)),
-    )
-
-export const swap = <A, B>(self: These<A, B>): These<B, A> =>
+export const swap = <R, E>(self: These<R, E>): These<E, R> =>
   pipe(
     self,
-    match<A, B, These<B, A>>({
+    match<R, E, These<E, R>>({
       Left: ({left: right}) => Right.from(right),
       Right: ({right: left}) => Left.from(left),
-      Both: ({left: right, right: left}) => Both.from(left, right),
+      Both: ({left: right, right: left}) => Both.from(right, left),
     }),
   )
 
-export const zipArraysWith = <A, B, R>(
-  left: A[],
-  right: B[],
-  f: (ab: These<A, B>) => R,
-): R[] => {
-  const cropped: R[] = Array.zipWith(left, right, flow(Both.from, f)),
-    delta = left.length - right.length
-
+export const zipArraysWith = <R, E, Result>(
+  right: readonly R[],
+  left: readonly E[],
+  f: (these: These<R, E>) => Result,
+): readonly Result[] => {
+  const delta = left.length - right.length
   return [
-    ...cropped,
+    ...Array.zipWith(right, left, flow(Both.from, f)),
     ...(delta === 0
       ? []
       : delta > 0
         ? pipe(
             left,
             Array.takeRight(delta),
-            Array.map(flow(Left.from<A, B>, f)),
+            Array.map(flow(Left.from<R, E>, f)),
           )
         : pipe(
             right,
             Array.takeRight(-1 * delta),
-            Array.map(flow(Right.from<A, B>, f)),
+            Array.map(flow(Right.from<R, E>, f)),
           )),
   ]
 }
@@ -123,10 +99,12 @@ export const zipArraysWith = <A, B, R>(
  * If they are both of equal size, all elements will be of type `Both<A,B>`.
  */
 export const zipArrays: {
-  <A, B>(left: A[], right: B[]): These<A, B>[]
-  <B>(right: B[]): <A>(left: A[]) => These<A, B>[]
-} = Function.dual(2, <A, B>(left: A[], right: B[]): These<A, B>[] =>
-  zipArraysWith(left, right, identity),
+  <A, B>(left: readonly A[], right: readonly B[]): readonly These<A, B>[]
+  <B>(right: readonly B[]): <A>(left: readonly A[]) => readonly These<A, B>[]
+} = Function.dual(
+  2,
+  <A, B>(left: readonly A[], right: readonly B[]): readonly These<A, B>[] =>
+    zipArraysWith(left, right, identity),
 )
 
 /**
@@ -135,27 +113,27 @@ export const zipArrays: {
  * `flow(zipArrays, unzipArray)` is identity.
  */
 export const unzipArray = <A, B>(
-  self: These<A, B>[],
+  self: readonly These<A, B>[],
 ): [left: A[], right: B[]] =>
   pipe(
     self,
     Array.map(pad),
     fanout(
       flow(
-        Array.filter(([leftOption]) => isSome(leftOption)),
-        Array.map(([left]) => (left as Some<A>).value),
+        Array.filter(([leftOption]) => Option.isSome(leftOption)),
+        Array.map(([left]) => (left as Option.Some<A>).value),
       ),
 
       flow(
-        Array.filter(([, rightOption]) => isSome(rightOption)),
-        Array.map(([, right]) => (right as Some<B>).value),
+        Array.filter(([, rightOption]) => Option.isSome(rightOption)),
+        Array.map(([, right]) => (right as Option.Some<B>).value),
       ),
     ),
   )
 
 /**
- * Use the given `Semigroup` instance to join the part/parts of the datatype
- * into a single* value.
+ * Use the given `Semigroup` instance to join the left and right sides of the
+ * given `These` into a single value.
  */
 export const join = <A>(S: Semigroup<A>) =>
   match<A, A, A>({

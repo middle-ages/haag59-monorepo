@@ -59,7 +59,7 @@ export const flip =
  * KindEndo<F extends TypeLambda> ≡ <A>(t: Kind1<F, A>) => Kind1<F, A>
  * ```
  */
-export type KindEndo<F extends HKT.TypeLambda> = <
+export type KindEndo<F extends HKT.Semigroup> = <
   A,
   E = unknown,
   R = unknown,
