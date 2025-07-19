@@ -1,7 +1,9 @@
 #!/usr/bin/env tsx
 
-import {pipe, Array, Schema} from 'effect'
-import {setNodeAttributes, schemasToDot} from 'effect-schema-viz'
+import {Schema} from 'effect'
+import {schemasToDot, setAttributes} from 'effect-schema-viz'
+
+const style = setAttributes({margin: 1 / 12, shape: 'box', fontname: 'Inter'})
 
 class Person extends Schema.Class<Person>('Person')({
   id: Schema.Number,
@@ -13,15 +15,6 @@ class Family extends Schema.Class<Person>('Family')({
   people: Schema.Array(Person),
 }) {}
 
-const styled = pipe(
-  [Person, Family],
-  Array.map(
-    setNodeAttributes({
-      shape: 'box',
-    }),
-  ),
-)
-
-const dot = schemasToDot('basic class example')(Person, Family)
+const dot = schemasToDot('basic class example')(style(Person), style(Family))
 
 console.log(dot)

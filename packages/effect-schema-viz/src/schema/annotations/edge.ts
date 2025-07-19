@@ -2,6 +2,7 @@ import type {AnyClass, ObjectType} from '#compile'
 import {Option, Schema} from 'effect'
 import {getAnnotation, type AST} from 'effect/SchemaAST'
 import type {EdgeAttributesObject} from 'ts-graphviz'
+import type {AllSchema} from 'utilities/Schema'
 
 /** Annotates nodes with edge attributes for their _outgoing_ edges. */
 export const EdgeAttributes = Symbol.for('effect-schema-viz/edge-attributes')
@@ -20,10 +21,8 @@ declare module 'effect/Schema' {
  */
 export const setEdgeAttributes =
   (attributes: EdgeAttributesObject) =>
-  <Self extends AnyClass, Fields extends Schema.Struct.Fields>(
-    schema: ObjectType<Self, Fields>,
-  ) =>
-    schema.annotations({[EdgeAttributes]: attributes})
+  <Schema extends AllSchema>(schema: Schema) =>
+    schema.annotations({[EdgeAttributes]: attributes}) as typeof schema
 
 /**
  * Get Graphviz [edge attributes](https://graphviz.org/docs/edges/) used for all

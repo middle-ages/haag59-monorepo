@@ -66,12 +66,15 @@ export const renderNodes = (
 const buildLabel = ({
   name,
   signatures,
-}: Node): string => `<table border="0" cellborder="0" cellspacing="4">
-<tr><td colspan="2" border="1" sides="b">${name}</td></tr>
+}: Node): string => `<table cellspacing="0" cellpadding="0" border="0">
+${tr(td(name, 3, 'align="center" border="1" sides="B"'))}
 ${pipe(signatures, Array.map(buildSignatureRow), unlines)}
 </table>`
 
-const buildSignatureRow = ({name, reference}: Signature) => `<tr>
-<td border="0" cellpadding="1" align="left">${name.toString()}:</td>
-<td border="0" cellpadding="1" align="left">${reference.display}</td>
-</tr>`
+const buildSignatureRow = ({name, reference}: Signature) =>
+  tr(td(`${name.toString()}:`) + td(' ') + td(reference.display))
+
+const tr = (content: string) => `<tr>${content}</tr>`
+
+const td = (content: string, colSpan = 1, attributes = 'align="left"') =>
+  `<td colspan="${colSpan.toString()}" ${attributes}>${content}</td>`

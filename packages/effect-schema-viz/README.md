@@ -115,7 +115,7 @@ const annotated = setNodeOptions({
 |----------------------------------------------------|---------------------------------------|
 |[struct.ts](src/test/examples/struct.ts)            |![image](doc/examples/struct.svg)       |
 |[class.ts](src/test/examples/class.ts)              |![image](doc/examples/class.svg)       |
-|[kitchenSink.ts](src/test/examples/kitchenSink.ts)  |![image](doc/examples/kitchenSink.svg) |
+|[kitchen-sink.ts](src/test/examples/kitchen-sink.svg) |
 |[dependencies.ts](src/test/examples/dependencies.ts)|![image](doc/examples/dependencies.svg)|
 
 ## Features

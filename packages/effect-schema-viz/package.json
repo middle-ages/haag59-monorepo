@@ -18,7 +18,7 @@
     "example:dependencies": "src/test/examples/dependencies.ts",
     "example:struct": "src/test/examples/struct.ts",
     "example:doc-example": "src/test/examples/doc-example.ts",
-    "example:kitchen-sink": "src/test/examples/kitchenSink.ts",
+    "example:kitchen-sink": "src/test/examples/kitchen-sink.ts",
     "build": "build",
     "build:docs": "build-docs",
     "build:examples": "dev/build-examples"

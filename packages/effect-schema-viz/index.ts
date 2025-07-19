@@ -7,5 +7,8 @@ export {
   setEdgeAttributes,
   getNodeAttributes,
   setNodeAttributes,
+  setAttributes,
+  EdgeAttributes,
+  NodeAttributes,
 } from '#annotations'
 export * from '#compile'

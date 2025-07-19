@@ -13,7 +13,8 @@ import type {
 import {fanout} from 'utilities/Pair'
 import {getEdgeAttributes, setEdgeAttributes} from './annotations/edge.js'
 import {getNodeAttributes, setNodeAttributes} from './annotations/node.js'
-import type {EndoOf} from 'utilities/Function'
+import type {AnyClass, ObjectType} from './compile.js'
+import type {AllSchema} from 'utilities/Schema'
 
 export * from './annotations/edge.js'
 export * from './annotations/node.js'
@@ -74,17 +75,20 @@ export const getAttributes: (
 export const setAttributes =
   (
     nodeAttributes: NodeAttributesObject,
-    graphAttributes: GraphAttributesObject,
-  ): EndoOf<AST> =>
-  ast => {
-    //
-  }
+    edgeAttributes: GraphAttributesObject = {},
+  ) =>
+  <Schema extends AllSchema>(schema: Schema): typeof schema =>
+    pipe(
+      schema,
+      setNodeAttributes(nodeAttributes),
+      setEdgeAttributes(edgeAttributes),
+    )
 
 /**
  * Just like [Effect/Schema/Struct](https://effect.website/docs/schema/basic-usage/#structs)
  * except has two extra functions under the `named` and `styled` keys. These are
  * syntax sugar for creating a struct and adding the identifier and Graphviz
- * options manually.
+ * attributes manually.
  *
  * 1. `named` - takes as an extra 1st parameter the name of the object type.
  * 1. `styles` - takes as an extra 1st parameter the name of the object type, and optional parameters for node and edge GraphViz attributes.
@@ -100,14 +104,13 @@ export const Struct = Object.assign(Schema.Struct, {
   styled:
     (
       identifier: string,
-      nodeOptions: NodeAttributesObject,
-      edgeOptions: EdgeAttributesObject = {},
+      nodeAttributes: NodeAttributesObject,
+      edgeAttributes: EdgeAttributesObject = {},
     ) =>
     <Fields extends Schema.Struct.Fields>(fields: Fields) =>
       pipe(
         Schema.Struct(fields),
         setIdentifier(identifier),
-        setNodeAttributes(nodeOptions),
-        setEdgeAttributes(edgeOptions),
+        setAttributes(nodeAttributes, edgeAttributes),
       ),
 })

@@ -18,18 +18,17 @@ const graphStyle = {
 } as const satisfies GraphAttributesObject
 
 const nodeStyle = {
-  shape: 'plain',
+  shape: 'plaintext',
   fontname: 'Inter',
-  fontsize: 12,
   fontcolor: 'gray10',
   fillcolor: 'white',
+  color: 'grey75',
   style: 'filled',
-  //  penwidth: 1,
+  margin: 1 / 24,
 } as const satisfies NodeAttributesObject
 
 const edgeStyle = {
   color: 'gray25',
-  penwidth: 1,
   arrowhead: 'vee',
   arrowsize: 0.5,
 } as const satisfies EdgeAttributesObject
