@@ -1,10 +1,6 @@
 import {Array, Data, flow, identity, pipe, String} from 'effect'
 import type {EdgeAttributesObject, NodeAttributesObject} from 'ts-graphviz'
-import {dedupeStrings} from 'utilities/Array'
-import type {EndoOf} from 'utilities/Function'
-import {pluck} from 'utilities/Record'
-import {surround} from 'utilities/String'
-import type {UnionToTuple} from 'utilities/Tuple'
+import {type UnionToTuple, dedupeStrings, surround, pluck} from '#util'
 
 export interface Reference {
   readonly display: string
@@ -124,7 +120,7 @@ Reference.formatRestTuple = ({display, ...rest}: Reference): Reference => ({
 
 /** Suffix given string on the reference display. */
 Reference.suffix =
-  (s: string): EndoOf<Reference> =>
+  (s: string): ((reference: Reference) => Reference) =>
   ({display, ...rest}) => ({
     display: display + s,
     ...rest,

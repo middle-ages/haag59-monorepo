@@ -1,6 +1,5 @@
 import {Node} from '#model'
-import {Schema, Data, Either, Option, pipe, SchemaAST} from 'effect'
-import {Array} from 'utilities'
+import {Array, Schema, Data, Either, Option, pipe, SchemaAST} from 'effect'
 import {getAttributes} from '../annotations.js'
 import {compilePropertySignatureAst} from './signature.js'
 
@@ -42,6 +41,7 @@ export const [unexpectedAst, missingIdentifier] = [
   (ast: SchemaAST.AST) => Either.left(new StructError.MissingIdentifier({ast})),
 ]
 
+/** An error that prevented the node from compiling. */
 export namespace StructError {
   export class UnexpectedAst extends Data.TaggedError('UnexpectedAst')<{
     ast: SchemaAST.AST

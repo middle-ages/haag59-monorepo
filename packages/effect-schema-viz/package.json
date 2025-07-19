@@ -29,8 +29,8 @@
     "typedoc": "catalog:"
   },
   "dependencies": {
-    "ts-graphviz": "catalog:",
-    "utilities": "workspace:"
+    "prettier": "catalog:",
+    "ts-graphviz": "catalog:"
   },
   "exports": {
     ".": {
@@ -47,6 +47,12 @@
     }
   },
   "imports": {
+    "#util": {
+      "import": {
+        "types": "./src/util.d.ts",
+        "import": "./src/util.js"
+      }
+    },
     "#model": {
       "import": {
         "types": "./src/diagram/model.d.ts",

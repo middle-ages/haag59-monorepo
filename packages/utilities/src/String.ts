@@ -199,7 +199,7 @@ export const widestLine = (lines: string[]): number =>
 export const hSeparator = (lines: string[]): string =>
   pipe('─', String.repeat(widestLine(lines)))
 
-/** Convert `SomeLongWord` into `some long word`. */
+/** Convert `SomeLongWord` into `Some long word`. */
 export const toSpacedLowercase: EndoOf<string> = s =>
   s === ''
     ? ''

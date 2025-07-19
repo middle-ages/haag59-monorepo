@@ -1,5 +1,5 @@
 import {Array, flow, pipe} from 'effect'
-import {suffix, surround, unwords} from 'utilities/String'
+import {suffix, surround, unwords} from '#util'
 import {Reference} from './model.js'
 
 /**

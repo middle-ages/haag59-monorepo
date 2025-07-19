@@ -1,8 +1,7 @@
-import type {AnyClass, ObjectType} from '#compile'
-import {Option, Schema} from 'effect'
+import type {AllSchema} from '#util'
+import {Option} from 'effect'
 import {getAnnotation, type AST} from 'effect/SchemaAST'
 import type {EdgeAttributesObject} from 'ts-graphviz'
-import type {AllSchema} from 'utilities/Schema'
 
 /** Annotates nodes with edge attributes for their _outgoing_ edges. */
 export const EdgeAttributes = Symbol.for('effect-schema-viz/edge-attributes')

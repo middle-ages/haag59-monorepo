@@ -3,8 +3,7 @@ import {Array, Option, Either, Schema, pipe} from 'effect'
 import {notAClassTransform} from './class.js'
 import {asNode, combine, partition} from './result.js'
 import {unexpectedAst} from './struct.js'
-import {These} from 'utilities'
-import {pluck} from 'utilities/Record'
+import {These, pluck} from '#util'
 
 const ast = Schema.Number.ast
 

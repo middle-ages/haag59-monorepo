@@ -7,8 +7,7 @@ import type {
   GraphAttributesObject,
   NodeAttributesObject,
 } from 'ts-graphviz'
-import type {Pair} from 'utilities/Pair'
-import type {AllSchema} from 'utilities/Schema'
+import {type Pair, type AllSchema} from '#util'
 
 const graphStyle = {
   bgcolor: 'gray90',

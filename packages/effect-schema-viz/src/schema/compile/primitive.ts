@@ -1,7 +1,7 @@
 import {Reference} from '#model'
 import {Array, identity, pipe} from 'effect'
 import {isEnums, type AST} from 'effect/SchemaAST'
-import {surround, unwords} from 'utilities/String'
+import {surround, unwords} from '#util'
 
 /**
  * Compile an element of the Effect/Schema AST that can never have any

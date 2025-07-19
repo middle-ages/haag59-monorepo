@@ -1,8 +1,7 @@
 import {Struct} from '#annotations'
 import {Node, PropertySignature, Reference} from '#model'
 import {errorType} from '#test'
-import {Either} from 'effect'
-import {Schema} from 'utilities'
+import {Schema, Either} from 'effect'
 import {compileStructAst} from './struct.js'
 
 const Foo = Struct.named('Foo')({foo: Schema.Literal('Foo')})

@@ -1,8 +1,7 @@
-import type {AnyClass, ObjectType} from '#compile'
-import {Option, Schema} from 'effect'
+import {Option} from 'effect'
 import {getAnnotation, type AST} from 'effect/SchemaAST'
 import type {NodeAttributesObject} from 'ts-graphviz'
-import type {AllSchema} from 'utilities/Schema'
+import type {AllSchema} from '#util'
 
 /** Annotates nodes with their Graphviz node attributes. */
 export const NodeAttributes = Symbol.for('effect-schema-viz/node-attributes')

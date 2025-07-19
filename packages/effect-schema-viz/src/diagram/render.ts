@@ -5,7 +5,7 @@ import {
   type GraphAttributesObject,
   type RootGraphModel,
 } from 'ts-graphviz'
-import {surround, unlines} from 'utilities/String'
+import {surround, unlines} from '#util'
 import {Node, type Signature} from './model.js'
 
 /** Add the given node and its edges to the given graph. */

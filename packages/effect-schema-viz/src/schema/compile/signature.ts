@@ -1,6 +1,5 @@
 import {PropertySignature, Reference} from '#model'
-import {SchemaAST} from 'effect'
-import {pipe} from 'utilities'
+import {pipe, SchemaAST} from 'effect'
 import {compileAstReference} from './reference.js'
 
 export const compilePropertySignatureAst = ({

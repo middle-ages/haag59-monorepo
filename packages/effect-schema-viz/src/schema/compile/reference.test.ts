@@ -1,10 +1,11 @@
 import {setIdentifier, Struct} from '#annotations'
-import {pipe, Schema} from 'utilities'
+import {pipe, Schema} from 'effect'
 import {compileAstReference} from './reference.js'
+import type {AllSchema} from '#util'
 
 const testReference = (
   name: string,
-  schema: Schema.AllSchema,
+  schema: AllSchema,
   expected: string,
   expectedTargets: string[] = [],
 ) => {

@@ -10,7 +10,7 @@ import {
   type OptionalType,
   type Type,
 } from 'effect/SchemaAST'
-import {pluck} from 'utilities/Record'
+import {pluck} from '#util'
 import {getIdentifierOrSerialize} from '../annotations.js'
 import {compileAstPrimitive} from './primitive.js'
 

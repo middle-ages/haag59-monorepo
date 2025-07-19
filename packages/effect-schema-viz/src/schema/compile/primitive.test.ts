@@ -1,4 +1,5 @@
-import {Schema} from 'utilities'
+import {type AllSchema} from '#util'
+import {Schema} from 'effect'
 import {compileAstPrimitive} from './primitive.js'
 
 const templateLiteral = Schema.TemplateLiteral(
@@ -15,11 +16,7 @@ enum Fruits {
   Banana,
 }
 
-const testPrimitive = (
-  name: string,
-  schema: Schema.AllSchema,
-  expected: string,
-) => {
+const testPrimitive = (name: string, schema: AllSchema, expected: string) => {
   test(name, () => {
     expect(compileAstPrimitive(schema.ast).display).toBe(expected)
   })

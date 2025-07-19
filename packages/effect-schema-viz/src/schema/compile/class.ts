@@ -1,7 +1,6 @@
 import {getAttributes} from '#annotations'
 import {ClassNode, Node} from '#model'
-import {Schema, Data, Either, Option, SchemaAST} from 'effect'
-import {Array, pipe} from 'utilities'
+import {Array, Data, Either, Option, pipe, Schema, SchemaAST} from 'effect'
 import {compilePropertySignatureAst} from './signature.js'
 
 export interface AnyClass {
@@ -23,7 +22,7 @@ export type AnyClassOf<
 
 /** Compile a schema `Class` into a diagram node or an error. */
 export const compileClass = <
-  Self extends {new (arg: any): any},
+  Self extends AnyClass,
   Fields extends Schema.Struct.Fields,
 >(
   schema: AnyClassOf<Self, Fields>,
@@ -88,6 +87,7 @@ export const [notAClassTransform, missingClassIdentifier] = [
     Either.left(new ClassError.MissingClassIdentifier({ast})),
 ]
 
+/** An error that prevented the node from compiling. */
 export namespace ClassError {
   export class NotAClassTransform extends Data.TaggedError(
     'NotAClassTransform',

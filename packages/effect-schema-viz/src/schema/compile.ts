@@ -1,6 +1,6 @@
 import {Array, Option, pipe, Schema, SchemaAST} from 'effect'
 import type {Predicate} from 'effect/Predicate'
-import type {AllSchema} from 'utilities/Schema'
+import type {AllSchema} from '#util'
 import {
   compileClassAst,
   isClassAst,
@@ -64,12 +64,12 @@ export const compileSchema = (
  */
 export const compileSchemas: (
   schemas: Array.NonEmptyReadonlyArray<AllSchema>,
-) => CompileResult.Results = schemas =>
-  pipe(schemas, Array.map(compileSchema), Array.getSomes, found =>
-    Array.isNonEmptyArray(found)
-      ? CompileResult.combine(found)
-      : CompileResult.noObjectTypesFound(schemas[0].ast),
-  )
+) => CompileResult.Results = schemas => {
+  const found = pipe(schemas, Array.map(compileSchema), Array.getSomes)
+  return Array.isNonEmptyReadonlyArray(found)
+    ? CompileResult.combine(found)
+    : CompileResult.noObjectTypesFound(schemas[0].ast)
+}
 
 /** True if the AST node can be compiled into a Graphviz node. */
 export const isObjectTypeAst: Predicate<SchemaAST.AST> = ast =>

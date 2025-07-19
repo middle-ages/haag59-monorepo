@@ -10,11 +10,9 @@ import type {
   GraphAttributesObject,
   NodeAttributesObject,
 } from 'ts-graphviz'
-import {fanout} from 'utilities/Pair'
+import {type AllSchema, fanout} from '#util'
 import {getEdgeAttributes, setEdgeAttributes} from './annotations/edge.js'
 import {getNodeAttributes, setNodeAttributes} from './annotations/node.js'
-import type {AnyClass, ObjectType} from './compile.js'
-import type {AllSchema} from 'utilities/Schema'
 
 export * from './annotations/edge.js'
 export * from './annotations/node.js'

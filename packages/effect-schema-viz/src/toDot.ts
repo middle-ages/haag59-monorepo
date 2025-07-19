@@ -13,7 +13,7 @@ import {
   type GraphAttributesObject,
   type RootGraphModel,
 } from 'ts-graphviz'
-import type {AllSchema} from 'utilities/Schema'
+import type {AllSchema} from '#util'
 
 /**
  * Compile the given Effect/Schema object type, struct or class, and add

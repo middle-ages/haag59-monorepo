@@ -1,9 +1,8 @@
 import {Node} from '#model'
+import {prefix, These, toSpacedLowercase} from '#util'
 import {Array, Data, Either, pipe, type SchemaAST} from 'effect'
-import {These} from 'utilities'
 import type {ClassError} from './class.js'
 import type {StructError} from './struct.js'
-import {prefix, toSpacedLowercase} from 'utilities/String'
 
 export type Error = StructError | ClassError | NoObjectTypesFound
 
@@ -52,6 +51,7 @@ export const partition: (results: Results) => PartitionResult = results =>
           Both: ({left, right}) => [right, left] as const,
         }),
       )
+
 /**
  * Combine the compile results of several nodes into a single result. The result
  * will have either:
@@ -63,7 +63,7 @@ export const partition: (results: Results) => PartitionResult = results =>
 export const combine = ([
   head,
   ...tail
-]: Array.NonEmptyArray<Result>): FoundResults =>
+]: Array.NonEmptyReadonlyArray<Result>): FoundResults =>
   Array.reduce(
     tail,
     pipe(
