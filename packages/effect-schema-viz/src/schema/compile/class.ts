@@ -1,4 +1,4 @@
-import {getOptions} from '#annotations'
+import {getAttributes} from '#annotations'
 import {ClassNode, Node} from '#model'
 import {Schema, Data, Either, Option, SchemaAST} from 'effect'
 import {Array, pipe} from 'utilities'
@@ -39,7 +39,7 @@ export const compileClassAst: (
       ClassNode(
         name,
         Array.map(propertySignatures, compilePropertySignatureAst),
-        ...getOptions(ast),
+        ...getAttributes(ast),
       ),
     ),
   )

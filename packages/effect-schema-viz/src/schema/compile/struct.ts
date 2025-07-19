@@ -1,7 +1,7 @@
 import {Node} from '#model'
 import {Schema, Data, Either, Option, pipe, SchemaAST} from 'effect'
 import {Array} from 'utilities'
-import {getOptions} from '../annotations.js'
+import {getAttributes} from '../annotations.js'
 import {compilePropertySignatureAst} from './signature.js'
 
 /** Compile a schema `Struct` into a diagram node or an error. */
@@ -27,7 +27,7 @@ export const compileStructAst = (
           Node(
             identifier,
             Array.map(ast.propertySignatures, compilePropertySignatureAst),
-            ...getOptions(ast),
+            ...getAttributes(ast),
           ),
         ),
     }),

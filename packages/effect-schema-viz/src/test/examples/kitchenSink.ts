@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 import {Schema} from 'effect'
-import {Struct, structsToDot} from 'effect-schema-viz'
+import {schemasToDot, Struct} from 'effect-schema-viz'
 
 const uniqueSymbolName = 'effect-schema-viz/test/schema'
 const uniqueSymbol = Symbol.for(uniqueSymbolName)
@@ -43,6 +43,6 @@ export const KitchenSink = Struct.styled('KitchenSink', {
   ),
 })
 
-const dot = structsToDot('Kitchen Sink', {bgcolor: 'grey75'})(KitchenSink)
+const dot = schemasToDot('Kitchen Sink', {bgcolor: 'grey75'})(KitchenSink)
 
 console.log(dot)

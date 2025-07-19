@@ -29,7 +29,7 @@ export type AnyObjectType<Key extends PropertyKey> = ObjectType<
  * error.
  */
 export const compileObjectType = <
-  Self extends {new (arg: any): any},
+  Self extends AnyClass,
   Fields extends Schema.Struct.Fields,
 >({
   ast,

@@ -5,10 +5,15 @@ import {
   type AST,
   type TypeLiteral,
 } from 'effect/SchemaAST'
-import type {EdgeAttributesObject, NodeAttributesObject} from 'ts-graphviz'
+import type {
+  EdgeAttributesObject,
+  GraphAttributesObject,
+  NodeAttributesObject,
+} from 'ts-graphviz'
 import {fanout} from 'utilities/Pair'
-import {getEdgeOptions, setEdgeOptions} from './annotations/edge.js'
-import {getNodeOptions, setNodeOptions} from './annotations/node.js'
+import {getEdgeAttributes, setEdgeAttributes} from './annotations/edge.js'
+import {getNodeAttributes, setNodeAttributes} from './annotations/node.js'
+import type {EndoOf} from 'utilities/Function'
 
 export * from './annotations/edge.js'
 export * from './annotations/node.js'
@@ -49,19 +54,31 @@ export const setIdentifier =
   ): typeof schema =>
     schema.annotations({identifier})
 
-/** Extract the `effect-schema-viz` options from given AST annotations. */
-export const getOptions: (
+/**
+ * Extract the Graphviz node and edge attributes from given AST annotations.
+ */
+export const getAttributes: (
   ast: AST,
 ) => readonly [NodeAttributesObject, EdgeAttributesObject] = fanout(
   flow(
-    getNodeOptions,
+    getNodeAttributes,
     Option.getOrElse(() => ({}) as NodeAttributesObject),
   ),
   flow(
-    getEdgeOptions,
+    getEdgeAttributes,
     Option.getOrElse(() => ({}) as EdgeAttributesObject),
   ),
 )
+
+/** Set Graphviz node and edge attribute annotations on the given AST. */
+export const setAttributes =
+  (
+    nodeAttributes: NodeAttributesObject,
+    graphAttributes: GraphAttributesObject,
+  ): EndoOf<AST> =>
+  ast => {
+    //
+  }
 
 /**
  * Just like [Effect/Schema/Struct](https://effect.website/docs/schema/basic-usage/#structs)
@@ -86,13 +103,11 @@ export const Struct = Object.assign(Schema.Struct, {
       nodeOptions: NodeAttributesObject,
       edgeOptions: EdgeAttributesObject = {},
     ) =>
-    <Fields extends Schema.Struct.Fields>(
-      fields: Fields,
-    ): Schema.Struct<Fields> =>
+    <Fields extends Schema.Struct.Fields>(fields: Fields) =>
       pipe(
         Schema.Struct(fields),
         setIdentifier(identifier),
-        setNodeOptions(nodeOptions),
-        setEdgeOptions(edgeOptions),
+        setNodeAttributes(nodeOptions),
+        setEdgeAttributes(edgeOptions),
       ),
 })

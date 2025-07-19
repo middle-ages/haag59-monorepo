@@ -22,9 +22,7 @@ Visualize your Effect/Schema.
 
 ### 1. Requirements
 
-[Effect](https://www.npmjs.com/package/effect) obviously, but you will also need
-the `dot` executable from [Graphviz](https://graphviz.org) in your path to
-generate images from `.dot` files.
+[Effect](https://www.npmjs.com/package/effect) obviously, but you will also need the `dot` executable from [Graphviz](https://graphviz.org) in your path to generate images from `.dot` files.
 
 For the _quick start example_ below you will also need `tsx`:
 
@@ -55,7 +53,7 @@ class Person extends Schema.Class<Person>('Person')({
 
 const Family = pipe(
   { name: Schema.String, people: Schema.Array(Person) },
-  Schema.Strict,
+  Schema.Struct,
   // Unlike classes, anonymous structs must be identified
   setIdentifier('Family')
 )
@@ -94,22 +92,13 @@ console.log(schemasToDot(MyObjectTypeSchema))
 
 ### Customizing Appearance
 
-Besides the _identifier_ annotation used to identify anonymous structs, Graphviz
-node and edge attributes are also encoded in schema annotations. You can set
-these annotations using the functions `setNodeOptions` and `setEdgeOptions`.
+Besides the _identifier_ annotation used to identify anonymous structs, Graphviz node and edge attributes are also encoded in schema annotations. You can set these annotations using the functions `setNodeOptions` and `setEdgeOptions`.
 
-Note Graphviz attributes are not orthogonal to each other. For example, setting
-the node attribute `fillcolor` will only work if the `style` attribute does not
-include `filled`, as [explained here](https://graphviz.org/doc/info/shapes.html#styles-for-nodes).
+Note Graphviz attributes are not orthogonal to each other. For example, setting the node attribute `fillcolor` will only work if the `style` attribute does not include `filled`, as [explained here](https://graphviz.org/doc/info/shapes.html#styles-for-nodes).
 
 #### Labels
 
-By default nodes will be configured with
-[Graphviz HTML labels](https://graphviz.org/doc/info/shapes.html#html). You can
-set your own label by setting the `label` entry on the Graphviz attributes of a
-node. If we find a node attributes that already have a `label`, the label is
-left untouched. For example to request that the schema object type `ClassFoo` be
-rendered as a `box` shape with a simple label we can annotate the schema:
+By default nodes will be configured with [Graphviz HTML labels](https://graphviz.org/doc/info/shapes.html#html). You can set your own label by setting the `label` entry on the Graphviz attributes of a node. If we find a node attributes that already have a `label`, the label is left untouched. For example to request that the schema object type `ClassFoo` be rendered as a `box` shape with a simple label we can annotate the schema:
 
 ```ts
 import {setNodeOptions} from 'effect-schema-viz'
