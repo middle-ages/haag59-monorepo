@@ -26,12 +26,11 @@ describe('schemasToDot', () => {
   test('Class', () => {
     expect(iut(ClassSchema)).toBe(`digraph "diagram" {
   "ClassSchema" [
-    label = <<table border="0" cellborder="0" cellspacing="4">
-<tr><td colspan="2" border="1" sides="b">ClassSchema</td></tr>
-<tr>
-<td border="0" cellpadding="1" align="left">id:</td>
-<td border="0" cellpadding="1" align="left">number</td>
-</tr>
+    label = <<table cellspacing="0" cellpadding="0" border="0">
+<tr><td colspan="3" align="center" border="1" sides="B">ClassSchema</td></tr>
+<tr><td colspan="1" align="left">id:</td>
+<td colspan="1" align="left"> </td>
+<td colspan="1" align="left">number</td></tr>
 </table>>;
   ];
 }`)
@@ -43,12 +42,11 @@ describe('schemasToDot', () => {
     label = "NamedStruct";
   ];
   "ClassSchema" [
-    label = <<table border="0" cellborder="0" cellspacing="4">
-<tr><td colspan="2" border="1" sides="b">ClassSchema</td></tr>
-<tr>
-<td border="0" cellpadding="1" align="left">id:</td>
-<td border="0" cellpadding="1" align="left">number</td>
-</tr>
+    label = <<table cellspacing="0" cellpadding="0" border="0">
+<tr><td colspan="3" align="center" border="1" sides="B">ClassSchema</td></tr>
+<tr><td colspan="1" align="left">id:</td>
+<td colspan="1" align="left"> </td>
+<td colspan="1" align="left">number</td></tr>
 </table>>;
   ];
 }`)

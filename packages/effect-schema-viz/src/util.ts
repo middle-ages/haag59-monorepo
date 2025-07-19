@@ -23,9 +23,6 @@ surround.parentheses = surround(['(', ')'])
 /** Surround with square brackets. */
 surround.squareBrackets = surround(['[', ']'])
 
-/** Surround with curly brackets. */
-surround.curlyBrackets = surround(['{', '}'])
-
 /** Surround with angled brackets. */
 surround.angledBrackets = surround(['<', '>'])
 
@@ -36,18 +33,6 @@ surround.quote = Object.assign(surround(["'", "'"]), {
 
   /** Fancy-quote a string. */
   fancy: surround(['“', '”']),
-
-  /** Surround with parentheses. */
-  parentheses: surround(['(', ')']),
-
-  /** Surround with square brackets. */
-  squareBrackets: surround(['[', ']']),
-
-  /** Surround with curly brackets. */
-  curlyBrackets: surround(['{', '}']),
-
-  /** Surround with angled brackets. */
-  angledBrackets: surround(['<', '>']),
 })
 
 /** Build a line from an array of words. */
@@ -73,10 +58,6 @@ export const pluck =
   <const K extends string>(key: K) =>
   <T extends {[L in K]: T[L]}>(o: T): T[K] =>
     o[key]
-
-/** Lower the case of the 1st letter in the given string. */
-export const toLowerCaseFirst = <const S extends string>(s: S) =>
-  (s.charAt(0).toLowerCase() + s.slice(1)) as Uncapitalize<S>
 
 /** Raise the case of the 1st letter in the given string. */
 export const toUpperCaseFirst = <const S extends string>(s: S) =>
@@ -104,12 +85,6 @@ export const suffix: (suffix: string) => (s: string) => string = String.concat
 /** Build a multiline string from an array of lines. */
 export const unlines = (lines: ReadonlyArray<string>): string =>
   lines.join('\n')
-
-/** Just like `unlines` but double spaced. */
-unlines.double = (lines: ReadonlyArray<string>): string => lines.join('\n\n')
-
-/** An untupled version of {@link unlines}. */
-unlines.rest = (...lines: ReadonlyArray<string>): string => unlines(lines)
 
 /**
  * For example:

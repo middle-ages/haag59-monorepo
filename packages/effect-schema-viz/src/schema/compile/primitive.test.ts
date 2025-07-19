@@ -23,7 +23,7 @@ const testPrimitive = (name: string, schema: AllSchema, expected: string) => {
 }
 
 describe('primitive', () => {
-  testPrimitive('enums', Schema.Enums(Fruits), '"Apple" | "Banana"')
+  testPrimitive('enums', Schema.Enums(Fruits), '“Apple” | “Banana”')
 
   testPrimitive('literal string', Schema.Literal('foo'), '"foo"')
   testPrimitive('literal number', Schema.Literal(42), '42')

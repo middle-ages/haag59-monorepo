@@ -1,3 +1,4 @@
+import {getTheseArbitrary, getZipResultsArbitrary} from '#test'
 import {SemigroupEvery} from '@effect/typeclass/data/Boolean'
 import {getOptionalMonoid} from '@effect/typeclass/data/Option'
 import {Semigroup as StringSemigroup} from '@effect/typeclass/data/String'
@@ -18,8 +19,7 @@ import {
 import {testTypeclassLaws, verboseLawSets} from 'effect-ts-laws/vitest'
 import {type Equivalence} from 'effect/Equivalence'
 import fc from 'fast-check'
-import {type Pair, pair} from '../Pair.js'
-import {getTheseArbitrary, getZipResultsArbitrary} from '../Test.js'
+import {type Pair} from '../Pair.js'
 import * as These from '../These.js'
 
 describe('These', () => {
@@ -105,10 +105,10 @@ describe('These', () => {
             a,
             a,
           )((a, b) =>
-            stringListPairEquals(
-              These.unzipArray(These.zipArrays(a, b)),
-              pair(a, b),
-            ),
+            stringListPairEquals(These.unzipArray(These.zipArrays(a, b)), [
+              a,
+              b,
+            ] as const),
           ),
 
           Law(

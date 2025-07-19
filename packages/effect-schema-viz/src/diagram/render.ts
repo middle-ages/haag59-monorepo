@@ -72,7 +72,7 @@ ${pipe(signatures, Array.map(buildSignatureRow), unlines)}
 </table>`
 
 const buildSignatureRow = ({name, reference}: Signature) =>
-  tr(td(`${name.toString()}:`) + td(' ') + td(reference.display))
+  pipe([td(`${name.toString()}:`), td(' '), td(reference.display)], unlines, tr)
 
 const tr = (content: string) => `<tr>${content}</tr>`
 

@@ -15,7 +15,7 @@ export const compileAstPrimitive = (ast: AST): Reference =>
       ? pipe(
           ast.enums,
           Array.map(([value]) =>
-            (typeof value === 'string' ? surround.quote.double : identity)(
+            (typeof value === 'string' ? surround.quote.fancy : identity)(
               value,
             ),
           ),
