@@ -198,3 +198,13 @@ export const widestLine = (lines: string[]): number =>
 
 export const hSeparator = (lines: string[]): string =>
   pipe('─', String.repeat(widestLine(lines)))
+
+/** Convert `SomeLongWord` into `some long word`. */
+export const toSpacedLowercase: EndoOf<string> = s =>
+  s === ''
+    ? ''
+    : pipe(
+        s.replaceAll(/([A-Z])/g, ' $1'),
+        String.toLowerCase,
+        toUpperCaseFirst,
+      ).slice(1)

@@ -16,7 +16,8 @@
     "typecheck": "typecheck",
     "build": "build",
     "build:docs": "build-docs",
-    "example:basic": "src/test/examples/basic.ts",
+    "example:struct": "src/test/examples/struct.ts",
+    "example:class": "src/test/examples/class.ts",
     "example:dependencies": "src/test/examples/dependencies.ts",
     "example:kitchen-sink": "src/test/examples/kitchenSink.ts"
   },

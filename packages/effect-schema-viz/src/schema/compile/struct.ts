@@ -1,8 +1,14 @@
 import {Node} from '#model'
-import {Data, Either, Option, pipe, SchemaAST} from 'effect'
+import {Schema, Data, Either, Option, pipe, SchemaAST} from 'effect'
 import {Array} from 'utilities'
 import {getOptions} from '../annotations.js'
 import {compilePropertySignatureAst} from './signature.js'
+
+/** Compile a schema `Struct` into a diagram node or an error. */
+export const compileStruct = <Fields extends Schema.Struct.Fields>({
+  ast,
+}: Schema.Struct<Fields>): Either.Either<Node, StructError> =>
+  compileStructAst(ast)
 
 export const compileStructAst = (
   ast: SchemaAST.AST,

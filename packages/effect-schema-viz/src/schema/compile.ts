@@ -1,34 +1,17 @@
-import type {Node} from '#model'
-import {Array, Either, flow, Option, pipe, Schema, SchemaAST} from 'effect'
+import {Array, Option, pipe, Schema, SchemaAST} from 'effect'
 import type {AllSchema} from 'utilities/Schema'
-import {compileClassAst, isClassAst, type ClassError} from './compile/class.js'
-import * as CompileResult from './compile/result.js'
 import {
-  compileStructAst,
-  isStructAst,
-  type StructError,
-} from './compile/struct.js'
+  compileClassAst,
+  isClassAst,
+  type AnyClass,
+  type AnyClassOf,
+} from './compile/class.js'
+import * as CompileResult from './compile/result.js'
+import {compileStructAst, isStructAst} from './compile/struct.js'
 
 export * from './compile/class.js'
 export * as CompileResult from './compile/result.js'
 export * from './compile/struct.js'
-
-export interface AnyClass {
-  new (...arg: never[]): unknown
-}
-
-export type AnyClassOf<
-  Self extends AnyClass,
-  Fields extends Schema.Struct.Fields,
-> = Schema.Class<
-  InstanceType<Self>,
-  Fields,
-  Schema.Struct.Encoded<Fields>,
-  Schema.Struct.Context<Fields>,
-  Schema.Struct.Constructor<Fields>,
-  {},
-  {}
->
 
 export type ObjectType<
   Self extends AnyClass,
@@ -39,20 +22,6 @@ export type AnyObjectType<Key extends PropertyKey> = ObjectType<
   any,
   Record<Key, AllSchema>
 >
-
-/** Compile a schema `Struct` into a diagram node or an error. */
-export const compileStruct = <Fields extends Schema.Struct.Fields>({
-  ast,
-}: Schema.Struct<Fields>): Either.Either<Node, StructError> =>
-  compileStructAst(ast)
-
-/** Compile a schema `Class` into a diagram node or an error. */
-export const compileClass = <
-  Self extends {new (arg: any): any},
-  Fields extends Schema.Struct.Fields,
->(
-  schema: AnyClassOf<Self, Fields>,
-): Either.Either<Node, ClassError> => compileClassAst(schema.ast)
 
 /**
  * Compile a schema object type, `Struct` or `Class`, into a diagram node or an
@@ -94,14 +63,12 @@ export const compileSchema = (
  */
 export const compileSchemas: (
   schemas: Array.NonEmptyReadonlyArray<AllSchema>,
-) => CompileResult.Results = flow(
-  Array.map(compileSchema),
-  Array.getSomes,
-  found =>
+) => CompileResult.Results = schemas =>
+  pipe(schemas, Array.map(compileSchema), Array.getSomes, found =>
     Array.isNonEmptyArray(found)
       ? CompileResult.combine(found)
-      : CompileResult.noObjectTypesFound,
-)
+      : CompileResult.noObjectTypesFound(schemas[0].ast),
+  )
 
 export const isObjectTypeAst = (ast: SchemaAST.AST) =>
   isStructAst(ast) || isClassAst(ast)

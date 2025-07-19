@@ -1,8 +1,33 @@
 import {getOptions} from '#annotations'
 import {ClassNode, Node} from '#model'
-import {Data, Either, Option, SchemaAST} from 'effect'
+import {Schema, Data, Either, Option, SchemaAST} from 'effect'
 import {Array, pipe} from 'utilities'
 import {compilePropertySignatureAst} from './signature.js'
+
+export interface AnyClass {
+  new (...arg: never[]): unknown
+}
+
+export type AnyClassOf<
+  Self extends AnyClass,
+  Fields extends Schema.Struct.Fields,
+> = Schema.Class<
+  InstanceType<Self>,
+  Fields,
+  Schema.Struct.Encoded<Fields>,
+  Schema.Struct.Context<Fields>,
+  Schema.Struct.Constructor<Fields>,
+  {},
+  {}
+>
+
+/** Compile a schema `Class` into a diagram node or an error. */
+export const compileClass = <
+  Self extends {new (arg: any): any},
+  Fields extends Schema.Struct.Fields,
+>(
+  schema: AnyClassOf<Self, Fields>,
+): Either.Either<Node, ClassError> => compileClassAst(schema.ast)
 
 export const compileClassAst: (
   ast: SchemaAST.AST,

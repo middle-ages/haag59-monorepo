@@ -1,10 +1,11 @@
 import {Node} from '#model'
-import {Array, Data, Either, pipe} from 'effect'
+import {Array, Data, Either, pipe, type SchemaAST} from 'effect'
 import {These} from 'utilities'
 import type {ClassError} from './class.js'
 import type {StructError} from './struct.js'
+import {prefix, toSpacedLowercase} from 'utilities/String'
 
-export type Error = StructError | ClassError
+export type Error = StructError | ClassError | NoObjectTypesFound
 
 export type Result = Either.Either<Node, Error>
 
@@ -17,24 +18,32 @@ export type Results = FoundResults | NoObjectTypesFound
 
 export type PartitionResult = [nodes: readonly Node[], errors: readonly Error[]]
 
-export class NoObjectTypesFound extends Data.TaggedError(
-  'NoObjectTypesFound',
-)<{}> {}
+export class NoObjectTypesFound extends Data.TaggedError('NoObjectTypesFound')<{
+  ast: SchemaAST.AST
+}> {}
 
-export const noObjectTypesFound: NoObjectTypesFound = new NoObjectTypesFound()
+export const noObjectTypesFound = (ast: SchemaAST.AST): NoObjectTypesFound =>
+  new NoObjectTypesFound({ast})
 
 export const isNoObjectTypesFound = (
+  error: Error,
+): error is NoObjectTypesFound => error._tag === 'NoObjectTypesFound'
+
+export const isNoObjectTypesFoundResult = (
   results: Results,
 ): results is NoObjectTypesFound =>
   '_tag' in results && results['_tag'] === 'NoObjectTypesFound'
 
 /** Convert the error into a node for display */
 export const asNode = ({_tag: name}: Error): Node =>
-  Node(name, [], {color: 'red'})
+  Node(pipe(name, toSpacedLowercase, prefix('ERROR: ')), [], {
+    color: 'red',
+    shape: 'box',
+  })
 
 /** Partition the result into nodes and errors. */
 export const partition: (results: Results) => PartitionResult = results =>
-  isNoObjectTypesFound(results)
+  isNoObjectTypesFoundResult(results)
     ? [[], []]
     : pipe(
         results,
