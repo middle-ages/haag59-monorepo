@@ -1,13 +1,14 @@
 #!/usr/bin/env tsx
 
 import {Array, pipe, Schema} from 'effect'
-import {Struct, structsToDot} from 'effect-schema-viz'
+import {schemasToDot, Struct} from 'effect-schema-viz'
 import type {
   EdgeAttributesObject,
   GraphAttributesObject,
   NodeAttributesObject,
 } from 'ts-graphviz'
 import type {Pair} from 'utilities/Pair'
+import type {AllSchema} from 'utilities/Schema'
 
 const graphStyle = {
   bgcolor: 'gray90',
@@ -33,14 +34,14 @@ const edgeStyle = {
   arrowsize: 0.5,
 } as const satisfies EdgeAttributesObject
 
-const dot = structsToDot(
+const dot = schemasToDot(
   'dependency tree example',
   graphStyle,
 )(...buildStructs())
 
 console.log(dot)
 
-function buildStructs() {
+function buildStructs(): Array.NonEmptyReadonlyArray<AllSchema> {
   const leafList = buildLeaves()
   const branches = buildBranches(leafList)
   const root = buildRoot(branches)

@@ -7,7 +7,7 @@ import {
 } from '#compile'
 import {Schema} from 'effect'
 
-describe('compile', () => {
+describe('compile types', () => {
   class Foo extends Schema.Class<Foo>('Foo')({
     foo: Schema.Number,
   }) {}

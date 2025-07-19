@@ -1,4 +1,5 @@
 import {Array, Option, pipe, Schema, SchemaAST} from 'effect'
+import type {Predicate} from 'effect/Predicate'
 import type {AllSchema} from 'utilities/Schema'
 import {
   compileClassAst,
@@ -70,5 +71,5 @@ export const compileSchemas: (
       : CompileResult.noObjectTypesFound(schemas[0].ast),
   )
 
-export const isObjectTypeAst = (ast: SchemaAST.AST) =>
+export const isObjectTypeAst: Predicate<SchemaAST.AST> = ast =>
   isStructAst(ast) || isClassAst(ast)

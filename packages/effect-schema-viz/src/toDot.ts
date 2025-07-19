@@ -132,5 +132,7 @@ export const graphSchemas =
 export const schemasToDot =
   (name: string, options: GraphAttributesObject = {}) =>
   /** List of `Effect/Schema` object types, structs or classes, to add to graph. */
-  (schemas: Array.NonEmptyReadonlyArray<AllSchema>): string =>
+  <Schemas extends Array.NonEmptyReadonlyArray<AllSchema>>(
+    ...schemas: Schemas
+  ): string =>
     pipe(schemas, graphSchemas(name, options), toDot)

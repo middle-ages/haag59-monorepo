@@ -35,7 +35,7 @@ export const compileStructAst = (
 }
 
 export const isStructAst = (ast: SchemaAST.AST): ast is SchemaAST.Literal =>
-  SchemaAST.isLiteral(ast)
+  SchemaAST.isTypeLiteral(ast)
 
 export const [unexpectedAst, missingIdentifier] = [
   (ast: SchemaAST.AST) => Either.left(new StructError.UnexpectedAst({ast})),

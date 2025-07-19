@@ -13,6 +13,6 @@ class Family extends Schema.Class<Person>('Family')({
   people: Schema.Array(Person),
 }) {}
 
-const dot = schemasToDot('basic class example')([Person, Family])
+const dot = schemasToDot('basic class example')(Person, Family)
 
 console.log(dot)

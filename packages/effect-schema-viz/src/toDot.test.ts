@@ -1,136 +1,39 @@
-import {HasSimple, KitchenSink, Simple} from '#schemas'
-import {structsToDot, type AnyStructs} from 'effect-schema-viz'
+import {Array, Schema} from 'effect'
+import {schemasToDot} from './toDot.js'
+import {Struct} from '#annotations'
 
-const testToDot = (name: string, structs: AnyStructs, expected: string) => {
+const testToDot = <
+  Schemas extends Array.NonEmptyReadonlyArray<Schema.Annotable.Any>,
+>(
+  name: string,
+  schemas: Schemas,
+  expected: string,
+) => {
   test(name, () => {
-    expect(structsToDot(name)(...structs)).toBe(expected)
+    expect(schemasToDot(name)(...schemas)).toBe(expected)
   })
 }
 
+const NamedStruct = Struct.styled('NamedStruct', {label: 'NamedStruct'})({
+  name: Schema.String,
+})
+
 describe('structToDot', () => {
   testToDot(
-    'Simple',
-    [Simple],
-    `digraph "Simple" {\n  "Simple" [\n    label = "Simple";\n  ];\n}`,
-  )
-
-  testToDot(
-    'KitchenSink',
-    [KitchenSink],
-    `digraph "KitchenSink" {
-  "KitchenSink" [
-    label = <<table border="0" cellborder="0" cellspacing="4">
-<tr><td colspan="2" border="1" sides="b">KitchenSink</td></tr>
-<tr>
-<td border="0" cellpadding="1" align="left">string:</td>
-<td border="0" cellpadding="1" align="left">string</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">number:</td>
-<td border="0" cellpadding="1" align="left">number</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">boolean:</td>
-<td border="0" cellpadding="1" align="left">boolean</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">object:</td>
-<td border="0" cellpadding="1" align="left">object</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">undefined:</td>
-<td border="0" cellpadding="1" align="left">undefined</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">void:</td>
-<td border="0" cellpadding="1" align="left">void</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">any:</td>
-<td border="0" cellpadding="1" align="left">any</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">unknown:</td>
-<td border="0" cellpadding="1" align="left">unknown</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">never:</td>
-<td border="0" cellpadding="1" align="left">never</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">bigint:</td>
-<td border="0" cellpadding="1" align="left">bigint</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">literalNumber:</td>
-<td border="0" cellpadding="1" align="left">42</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">literalString:</td>
-<td border="0" cellpadding="1" align="left">"foo"</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">templateLiteral:</td>
-<td border="0" cellpadding="1" align="left">\`http://\${string}\`</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">uniqueSymbol:</td>
-<td border="0" cellpadding="1" align="left">Symbol(effect-schema-viz/test/schema)</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">enums:</td>
-<td border="0" cellpadding="1" align="left">"Apple" | "Banana" | "Mango"</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">literalUnion:</td>
-<td border="0" cellpadding="1" align="left">("bar" | 123 | "baz")</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">pair:</td>
-<td border="0" cellpadding="1" align="left">[string, number]</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">array:</td>
-<td border="0" cellpadding="1" align="left">boolean[]</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">restTuple:</td>
-<td border="0" cellpadding="1" align="left">[string, ...number[]]</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">tupleOptional:</td>
-<td border="0" cellpadding="1" align="left">["foo", "bar"?]</td>
-</tr>
-</table>>;
-    shape = "plain";
-    style = "filled";
-    fillcolor = "white";
-    fontname = "CMU Typewriter Text";
-  ];
-}`,
-  )
-
-  testToDot(
-    'Dependency',
-    [Simple, HasSimple],
-    `digraph "Dependency" {
-  "Simple" [
-    label = "Simple";
-  ];
-  "HasSimple" [
-    label = <<table border="0" cellborder="0" cellspacing="4">
-<tr><td colspan="2" border="1" sides="b">HasSimple</td></tr>
-<tr>
-<td border="0" cellpadding="1" align="left">name:</td>
-<td border="0" cellpadding="1" align="left">string</td>
-</tr>
-<tr>
-<td border="0" cellpadding="1" align="left">simple:</td>
-<td border="0" cellpadding="1" align="left">Simple</td>
-</tr>
-</table>>;
-  ];
-  "HasSimple" -> "Simple";
-}`,
+    'NamedStruct',
+    [NamedStruct],
+    `digraph "NamedStruct" {\n  "NamedStruct" [\n    label = "NamedStruct";\n  ];\n}`,
   )
 })
+/*
+export const HasSimple = Struct.named('HasSimple')({
+  name: Schema.String,
+  simple: Simple,
+})
+
+export const Anonymous = Schema.Struct({
+  foo: Schema.Literal('foo'),
+})
+
+
+*/
