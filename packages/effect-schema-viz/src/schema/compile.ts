@@ -71,5 +71,6 @@ export const compileSchemas: (
       : CompileResult.noObjectTypesFound(schemas[0].ast),
   )
 
+/** True if the AST node can be compiled into a Graphviz node. */
 export const isObjectTypeAst: Predicate<SchemaAST.AST> = ast =>
   isStructAst(ast) || isClassAst(ast)

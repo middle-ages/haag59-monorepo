@@ -35,11 +35,10 @@ export const isNoObjectTypesFoundResult = (
   '_tag' in results && results['_tag'] === 'NoObjectTypesFound'
 
 /** Convert the error into a node for display */
-export const asNode = ({_tag: name}: Error): Node =>
-  Node(pipe(name, toSpacedLowercase, prefix('ERROR: ')), [], {
-    color: 'red',
-    shape: 'box',
-  })
+export const asNode = ({_tag: name}: Error): Node => {
+  const label = pipe(name, toSpacedLowercase, prefix('ERROR: '))
+  return Node(label, [], {color: 'red', shape: 'box', label})
+}
 
 /** Partition the result into nodes and errors. */
 export const partition: (results: Results) => PartitionResult = results =>
