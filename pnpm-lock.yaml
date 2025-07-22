@@ -16,46 +16,46 @@ catalogs:
       specifier: ^0.35.14
       version: 0.35.14
     '@effect/vitest':
-      specifier: ^0.24.1
+      specifier: 0.24.1
       version: 0.24.1
     '@eslint/js':
-      specifier: ^9.31.0
+      specifier: 9.31.0
       version: 9.31.0
     '@fast-check/vitest':
-      specifier: ^0.2.2
+      specifier: 0.2.2
       version: 0.2.2
     '@tsconfig/node24':
-      specifier: ^24.0.1
+      specifier: 24.0.1
       version: 24.0.1
     '@tsconfig/strictest':
-      specifier: ^2.0.5
+      specifier: 2.0.5
       version: 2.0.5
     '@tsconfig/vite-react':
       specifier: ^7.0.0
       version: 7.0.0
     '@types/node':
-      specifier: ^24.0.14
+      specifier: 24.0.14
       version: 24.0.14
     '@vitest/coverage-v8':
-      specifier: ^3.2.4
+      specifier: 3.2.4
       version: 3.2.4
     dependency-cruiser:
-      specifier: ^16.10.4
+      specifier: 16.10.4
       version: 16.10.4
     effect:
       specifier: ^3.16.16
       version: 3.16.16
     effect-ts-laws:
-      specifier: ^1.3.8
+      specifier: 1.3.8
       version: 1.3.8
     eslint:
-      specifier: ^9.31.0
+      specifier: 9.31.0
       version: 9.31.0
     eslint-config-prettier:
-      specifier: ^10.1.5
+      specifier: 10.1.5
       version: 10.1.5
     eslint-plugin-prettier:
-      specifier: ^5.5.1
+      specifier: 5.5.1
       version: 5.5.1
     eslint-plugin-react:
       specifier: ^7.37.5
@@ -67,29 +67,29 @@ catalogs:
       specifier: ^0.4.20
       version: 0.4.20
     eslint-plugin-sonarjs:
-      specifier: ^3.0.4
+      specifier: 3.0.4
       version: 3.0.4
     eslint-plugin-unicorn:
-      specifier: ^59.0.1
+      specifier: 59.0.1
       version: 59.0.1
     fast-check:
-      specifier: ^4.2.0
+      specifier: 4.2.0
       version: 4.2.0
     fast-graph:
       specifier: ^1.5.0
       version: 1.5.0
     globals:
-      specifier: ^16.3.0
+      specifier: 16.3.0
       version: 16.3.0
     jiti:
-      specifier: ^2.4.2
+      specifier: 2.4.2
       version: 2.4.2
     prettier:
       specifier: 3.6.2
       version: 3.6.2
     ts-graphviz:
-      specifier: ^2.1.6
-      version: 2.1.6
+      specifier: ^3.0.0
+      version: 3.0.0
     tsx:
       specifier: 4.20.3
       version: 4.20.3
@@ -103,13 +103,13 @@ catalogs:
       specifier: ~5.8.3
       version: 5.8.3
     typescript-eslint:
-      specifier: ^8.37.0
+      specifier: 8.37.0
       version: 8.37.0
     vite:
       specifier: ^7.0.4
       version: 7.0.4
     vitest:
-      specifier: ^3.2.4
+      specifier: 3.2.4
       version: 3.2.4
 
 importers:
@@ -226,20 +226,77 @@ importers:
         version: 3.6.2
       ts-graphviz:
         specifier: 'catalog:'
-        version: 2.1.6
-      utilities:
-        specifier: 'workspace:'
-        version: link:../utilities
+        version: 3.0.0
     devDependencies:
+      '@effect/vitest':
+        specifier: 'catalog:'
+        version: 0.24.1(effect@3.16.16)(vitest@3.2.4(@types/node@24.0.14)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
+      '@eslint/js':
+        specifier: 'catalog:'
+        version: 9.31.0
+      '@fast-check/vitest':
+        specifier: 'catalog:'
+        version: 0.2.2(vitest@3.2.4(@types/node@24.0.14)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
+      '@tsconfig/node24':
+        specifier: 'catalog:'
+        version: 24.0.1
+      '@tsconfig/strictest':
+        specifier: 'catalog:'
+        version: 2.0.5
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.0.14
+      '@vitest/coverage-v8':
+        specifier: 'catalog:'
+        version: 3.2.4(vitest@3.2.4(@types/node@24.0.14)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
       config:
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../config
+      dependency-cruiser:
+        specifier: 'catalog:'
+        version: 16.10.4
+      effect-ts-laws:
+        specifier: 'catalog:'
+        version: 1.3.8(@effect/typeclass@0.35.14(effect@3.16.16))(@fast-check/vitest@0.2.2(vitest@3.2.4(@types/node@24.0.14)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)))(effect@3.16.16)(fast-check@4.2.0)(vitest@3.2.4(@types/node@24.0.14)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0))
+      eslint:
+        specifier: 'catalog:'
+        version: 9.31.0(jiti@2.4.2)
+      eslint-config-prettier:
+        specifier: 'catalog:'
+        version: 10.1.5(eslint@9.31.0(jiti@2.4.2))
+      eslint-plugin-prettier:
+        specifier: 'catalog:'
+        version: 5.5.1(eslint-config-prettier@10.1.5(eslint@9.31.0(jiti@2.4.2)))(eslint@9.31.0(jiti@2.4.2))(prettier@3.6.2)
+      eslint-plugin-sonarjs:
+        specifier: 'catalog:'
+        version: 3.0.4(eslint@9.31.0(jiti@2.4.2))
+      eslint-plugin-unicorn:
+        specifier: 'catalog:'
+        version: 59.0.1(eslint@9.31.0(jiti@2.4.2))
+      fast-check:
+        specifier: 'catalog:'
+        version: 4.2.0
+      globals:
+        specifier: 'catalog:'
+        version: 16.3.0
+      jiti:
+        specifier: 'catalog:'
+        version: 2.4.2
       scripts:
-        specifier: 'workspace:'
+        specifier: workspace:^
         version: link:../scripts
+      tsx:
+        specifier: 'catalog:'
+        version: 4.20.3
       typedoc:
         specifier: 'catalog:'
         version: 0.28.7(typescript@5.8.3)
+      typescript-eslint:
+        specifier: 'catalog:'
+        version: 8.37.0(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3)
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.4(@types/node@24.0.14)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)
     publishDirectory: dist
 
   packages/scripts: {}
@@ -868,21 +925,21 @@ packages:
   '@standard-schema/spec@1.0.0':
     resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
 
-  '@ts-graphviz/adapter@2.0.6':
-    resolution: {integrity: sha512-kJ10lIMSWMJkLkkCG5gt927SnGZcBuG0s0HHswGzcHTgvtUe7yk5/3zTEr0bafzsodsOq5Gi6FhQeV775nC35Q==}
-    engines: {node: '>=18'}
+  '@ts-graphviz/adapter@3.0.0':
+    resolution: {integrity: sha512-BswrHyMK4FbwnyXfWc3vi6vtapXYs7BNW4wZTJnmF0qLi708UNGhsfoaHO27JMYhhMlTv5O/Kn7jBgr8TEBVLw==}
+    engines: {node: '>=20'}
 
-  '@ts-graphviz/ast@2.0.7':
-    resolution: {integrity: sha512-e6+2qtNV99UT6DJSoLbHfkzfyqY84aIuoV8Xlb9+hZAjgpum8iVHprGeAMQ4rF6sKUAxrmY8rfF/vgAwoPc3gw==}
-    engines: {node: '>=18'}
+  '@ts-graphviz/ast@3.0.0':
+    resolution: {integrity: sha512-wWSXlHb7BkwBxMsbm11Rpc9JXSVHSrt47CbQPKOxXgoPbe9mrJPrk6Gzw0mKVsxZHYLmBr8c8gVxfQbC+x9Gng==}
+    engines: {node: '>=20'}
 
-  '@ts-graphviz/common@2.1.5':
-    resolution: {integrity: sha512-S6/9+T6x8j6cr/gNhp+U2olwo1n0jKj/682QVqsh7yXWV6ednHYqxFw0ZsY3LyzT0N8jaZ6jQY9YD99le3cmvg==}
-    engines: {node: '>=18'}
+  '@ts-graphviz/common@3.0.0':
+    resolution: {integrity: sha512-lFEvb6jjuPCqzYcCekVoMMX83VWNZDyiYSo31qzDRUhePlNhLxSAgoTBCrsAX2hU/M1SqjgJSGoPeeIhe/YzMA==}
+    engines: {node: '>=20'}
 
-  '@ts-graphviz/core@2.0.7':
-    resolution: {integrity: sha512-w071DSzP94YfN6XiWhOxnLpYT3uqtxJBDYdh6Jdjzt+Ce6DNspJsPQgpC7rbts/B8tEkq0LHoYuIF/O5Jh5rPg==}
-    engines: {node: '>=18'}
+  '@ts-graphviz/core@3.0.0':
+    resolution: {integrity: sha512-Ssx9Cm8UGfbzwYq1RnCN10p6ihBoUS5cf0P4My28AD5SFTjYnZYB+JzV+8oub3ifCe6NahM97YXnNigsGPbMEw==}
+    engines: {node: '>=20'}
 
   '@tsconfig/node24@24.0.1':
     resolution: {integrity: sha512-3+IXshza3bIrT0tbHBr9CixQDVf4iBf0HTR0hCYowhpLqkzJjswu3UY8aZWjRXZep31kYB+o2SQeD8KwIoUHYw==}
@@ -2346,9 +2403,9 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
-  ts-graphviz@2.1.6:
-    resolution: {integrity: sha512-XyLVuhBVvdJTJr2FJJV2L1pc4MwSjMhcunRVgDE9k4wbb2ee7ORYnPewxMWUav12vxyfUM686MSGsqnVRIInuw==}
-    engines: {node: '>=18'}
+  ts-graphviz@3.0.0:
+    resolution: {integrity: sha512-SZWxL/WVOGm/5TUO+6n6MxJXjIxZ5uLcxpJGdXkTsFJ738pJNKXWIfbF/KBselW/7+WdCLwz29nGQwbsoKNIsg==}
+    engines: {node: '>=20'}
 
   tsconfig-paths-webpack-plugin@4.2.0:
     resolution: {integrity: sha512-zbem3rfRS8BgeNK50Zz5SIQgXzLafiHjOwUAvk/38/o1jHn/V5QAgVUcz884or7WYcPaH3N2CIfUc2u0ul7UcA==}
@@ -2437,46 +2494,6 @@ packages:
     resolution: {integrity: sha512-EbKSKh+bh1E1IFxeO0pg1n4dvoOTt0UDiXMd/qn++r98+jPO1xtJilvXldeuQ8giIB5IkpjCgMleHMNEsGH6pg==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
-
-  vite@6.2.7:
-    resolution: {integrity: sha512-qg3LkeuinTrZoJHHF94coSaTfIPyBYoywp+ys4qu20oSJFbKMYoIJo0FWJT9q6Vp49l6z9IsJRbHdcGtiKbGoQ==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^18.0.0 || ^20.0.0 || >=22.0.0
-      jiti: '>=1.21.0'
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      sass-embedded: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.16.0
-      tsx: ^4.8.1
-      yaml: ^2.4.2
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      jiti:
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      sass-embedded:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-      tsx:
-        optional: true
-      yaml:
-        optional: true
 
   vite@7.0.4:
     resolution: {integrity: sha512-SkaSguuS7nnmV7mfJ8l81JGBFV7Gvzp8IzgE8A8t23+AxuNX61Q5H1Tpz5efduSN7NHC8nQXD3sKQKZAu5mNEA==}
@@ -3072,20 +3089,20 @@ snapshots:
 
   '@standard-schema/spec@1.0.0': {}
 
-  '@ts-graphviz/adapter@2.0.6':
+  '@ts-graphviz/adapter@3.0.0':
     dependencies:
-      '@ts-graphviz/common': 2.1.5
+      '@ts-graphviz/common': 3.0.0
 
-  '@ts-graphviz/ast@2.0.7':
+  '@ts-graphviz/ast@3.0.0':
     dependencies:
-      '@ts-graphviz/common': 2.1.5
+      '@ts-graphviz/common': 3.0.0
 
-  '@ts-graphviz/common@2.1.5': {}
+  '@ts-graphviz/common@3.0.0': {}
 
-  '@ts-graphviz/core@2.0.7':
+  '@ts-graphviz/core@3.0.0':
     dependencies:
-      '@ts-graphviz/ast': 2.0.7
-      '@ts-graphviz/common': 2.1.5
+      '@ts-graphviz/ast': 3.0.0
+      '@ts-graphviz/common': 3.0.0
 
   '@tsconfig/node24@24.0.1': {}
 
@@ -4819,12 +4836,12 @@ snapshots:
     dependencies:
       typescript: 5.8.3
 
-  ts-graphviz@2.1.6:
+  ts-graphviz@3.0.0:
     dependencies:
-      '@ts-graphviz/adapter': 2.0.6
-      '@ts-graphviz/ast': 2.0.7
-      '@ts-graphviz/common': 2.1.5
-      '@ts-graphviz/core': 2.0.7
+      '@ts-graphviz/adapter': 3.0.0
+      '@ts-graphviz/ast': 3.0.0
+      '@ts-graphviz/common': 3.0.0
+      '@ts-graphviz/core': 3.0.0
 
   tsconfig-paths-webpack-plugin@4.2.0:
     dependencies:
@@ -4938,7 +4955,7 @@ snapshots:
       debug: 4.4.1
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 6.2.7(@types/node@24.0.14)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)
+      vite: 7.0.4(@types/node@24.0.14)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -4952,18 +4969,6 @@ snapshots:
       - terser
       - tsx
       - yaml
-
-  vite@6.2.7(@types/node@24.0.14)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0):
-    dependencies:
-      esbuild: 0.25.6
-      postcss: 8.5.6
-      rollup: 4.45.1
-    optionalDependencies:
-      '@types/node': 24.0.14
-      fsevents: 2.3.3
-      jiti: 2.4.2
-      tsx: 4.20.3
-      yaml: 2.8.0
 
   vite@7.0.4(@types/node@24.0.14)(jiti@2.4.2)(tsx@4.20.3)(yaml@2.8.0):
     dependencies:

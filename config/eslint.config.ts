@@ -1,10 +1,10 @@
 import * as eslint from '@eslint/js'
 import prettierRecommended from 'eslint-plugin-prettier/recommended'
-//import eslintPluginUnicorn from 'eslint-plugin-unicorn'
+import eslintPluginUnicorn from 'eslint-plugin-unicorn'
 import * as globals from 'globals'
 import {globalIgnores} from 'eslint/config'
 import tslint from 'typescript-eslint'
-//import sonarjs from 'eslint-plugin-sonarjs'
+import sonarjs from 'eslint-plugin-sonarjs'
 
 const config = tslint.config(
   globalIgnores([
@@ -26,8 +26,8 @@ const config = tslint.config(
   ...tslint.configs.recommended,
   eslint.configs.recommended,
   tslint.configs.strictTypeChecked,
-  //  eslintPluginUnicorn.configs.recommended,
-  // sonarjs.configs.recommended,
+  eslintPluginUnicorn.configs.recommended,
+  sonarjs.configs.recommended,
   prettierRecommended,
 
   {
